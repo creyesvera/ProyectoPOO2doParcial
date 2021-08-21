@@ -9,13 +9,12 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controller.RegistrarUsuarioController">
    <top>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Registro de Usuario" BorderPane.alignment="CENTER" />
    </top>
    <center>
-      <GridPane fx:id="nombox" BorderPane.alignment="CENTER">
+      <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -33,7 +32,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Organización: " GridPane.rowIndex="2" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Correo electrónico: " GridPane.rowIndex="3" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña: " GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" />
+            <TextField fx:id="nombox" GridPane.columnIndex="1" />
             <TextField fx:id="apelbox" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="organibox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="emailbox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
