@@ -124,7 +124,7 @@ public class Usuario implements Serializable {
         return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", correo_elec=" + correo_elec + ", organizacion=" + organizacion + ", vehiculos=" + vehiculos + ", ofertas=" + ofertas + '}';
     }
     
-    public void saveFile(String nomfile, ArrayList<Usuario> usuarios){
+    public static void saveFile(String nomfile, ArrayList<Usuario> usuarios){
         try
         {
             FileOutputStream file = new FileOutputStream(nomfile);
