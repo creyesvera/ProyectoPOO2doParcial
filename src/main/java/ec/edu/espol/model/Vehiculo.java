@@ -257,7 +257,7 @@ public class Vehiculo {
     }
     
     
-    public void saveFile(String nomfile, ArrayList<Vehiculo> vehiculos){
+    public static void saveFile(String nomfile, ArrayList<Vehiculo> vehiculos){
         try
         {
             FileOutputStream file = new FileOutputStream(nomfile);
