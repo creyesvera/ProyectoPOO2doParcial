@@ -20,9 +20,10 @@ import java.util.ArrayList;
  */
 public class Usuario implements Serializable {
     private int id;
-    private String nombres, apellidos, correo_elec, organizacion, clave;
+    private String nombres, apellidos, correo_elec, organizacion, clave; //validar que el correo sea unico
     private ArrayList<Vehiculo> vehiculos;
     private ArrayList<Oferta> ofertas;
+    private TipoUsuario tipo;
     private static final long serialVersionUID = 8456845698545269L;
 
     public Usuario(int id, String nombres, String apellidos, String correo_elec, String organizacion, String clave) {
@@ -100,6 +101,14 @@ public class Usuario implements Serializable {
         this.ofertas = ofertas;
     }
 
+    public TipoUsuario getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoUsuario tipo) {
+        this.tipo = tipo;
+    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -175,5 +184,13 @@ public class Usuario implements Serializable {
         return null;
     }
     
-    
+    //devuelve el id de un usuario segun el correo
+    public static int searchBycorreoID(String correo,ArrayList<Usuario> usuarios){
+        for(Usuario user : usuarios)
+        {
+            if(user.getCorreo_elec().equals(correo))
+                return user.getId();
+        }
+        return -1;
+    }
 }
