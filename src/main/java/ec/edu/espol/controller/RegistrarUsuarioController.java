@@ -6,9 +6,13 @@
 package ec.edu.espol.controller;
 
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.proyectopoo2doparcial.App;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,7 +28,8 @@ import javafx.scene.layout.GridPane;
  * @author camil
  */
 public class RegistrarUsuarioController implements Initializable {
-
+    private ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+    private Usuario usuario;
     @FXML
     private Button btregresar;
     @FXML
@@ -41,7 +46,7 @@ public class RegistrarUsuarioController implements Initializable {
     private Button btregistrar;
     @FXML
     private Button btiniciarsesion;
-
+    
     /**
      * Initializes the controller class.
      */
@@ -56,7 +61,15 @@ public class RegistrarUsuarioController implements Initializable {
 
     @FXML
     private void regresar(MouseEvent event) {
-        
+        try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("registrarUsuario");
+            App.setRoot(fxmlloader);
+            IniciarSesionController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -68,7 +81,9 @@ public class RegistrarUsuarioController implements Initializable {
             String organizacion = organibox.getText();
             String clave = passwordbox.getText();
             int id=0 ;
-            Usuario u = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave);
+            this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave);
+            usuarios.add(usuario);
+            Usuario.saveFile("usuarios.ser", usuarios);
         
         }catch(Exception e){
         Alert a = new Alert(AlertType.ERROR,"El correo que ingreso no es valido");
@@ -78,6 +93,15 @@ public class RegistrarUsuarioController implements Initializable {
 
     @FXML
     private void iniciarsesion(MouseEvent event) {
+        try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("iniciarSesion");
+            App.setRoot(fxmlloader);
+            IniciarSesionController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
 }
