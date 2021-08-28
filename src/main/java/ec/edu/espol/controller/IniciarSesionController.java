@@ -50,9 +50,10 @@ public class IniciarSesionController implements Initializable {
     @FXML
     private void regresar(MouseEvent event) {
         try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("registrarUsuario.fxml");
+            FXMLLoader fxmlloader = App.loadFXMLLoader("ventanaPrincipal");
             App.setRoot(fxmlloader);
-            
+            //ventanaPrincipalController sesion = fxmlloader.getController();
+            //sesion.setUsuario(this.getUsuario);
             
         } catch (IOException ex) {
             ex.printStackTrace();
