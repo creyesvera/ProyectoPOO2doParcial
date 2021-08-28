@@ -94,28 +94,5 @@ public class Util {
         }
         return hexString.toString(); //retorna el string en el formato toString() antes programado
     }
-   
-    public static boolean isNumeric(String cadena){
-	try {
-		double d = Double.parseDouble(cadena);
-		if (d>= 0)
-                    return true;
-                else
-                    return false;
-	} catch (NumberFormatException nfe){
-		return false;
-	}
-}
 
-    public static boolean isInt(String cadena){
-	try {
-		int i = Integer.parseInt(cadena);
-                if (i>= 0)
-                    return true;
-                else
-                    return false;
-	} catch (NumberFormatException nfe){
-		return false;
-	}
-}
 }
