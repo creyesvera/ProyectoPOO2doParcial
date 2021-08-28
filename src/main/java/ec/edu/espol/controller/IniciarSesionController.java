@@ -5,9 +5,14 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.Usuario;
+import ec.edu.espol.proyectopoo2doparcial.App;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -20,7 +25,8 @@ import javafx.scene.input.MouseEvent;
  * @author camil
  */
 public class IniciarSesionController implements Initializable {
-
+    private ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+    private Usuario usuario;
     @FXML
     private Button btregresar;
     @FXML
@@ -43,14 +49,36 @@ public class IniciarSesionController implements Initializable {
 
     @FXML
     private void regresar(MouseEvent event) {
+        try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("registrarUsuario.fxml");
+            App.setRoot(fxmlloader);
+            
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
     private void registrar(MouseEvent event) {
+        //App.setRoot(fxmlLoader);
     }
 
     @FXML
     private void iniciarsesion(MouseEvent event) {
+        //validar correo y contrase;a
+        String email = emailbox.getText();
+        String password = passwordbox.getText();
+        this.setUsuario(Usuario.searchByCorreoYClave(usuarios, email, password));
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
     
 }
