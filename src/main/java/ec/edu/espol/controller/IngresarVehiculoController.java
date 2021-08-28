@@ -147,5 +147,15 @@ public class IngresarVehiculoController implements Initializable {
     private void importar(MouseEvent event) {
         
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
     
 }
