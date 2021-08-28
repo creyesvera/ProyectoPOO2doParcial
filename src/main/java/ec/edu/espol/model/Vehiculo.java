@@ -19,81 +19,103 @@ import java.util.ArrayList;
  */
 public class Vehiculo {
     private int id;
-    private String placa;
+    private String placa;       //validar que sea unica
     private String marca;
     private String modelo;
     private String tipo_motor;
-    private int year;
-    private double recorrido;
+    private int year;           //validar que sea positivo
+    private double recorrido;   //validar que sea positivo
     private String color;
     private String tipo_combustible;
-    private int vidrios;
+    private int vidrios;        //validar que sea positivo
     private String transmicion;
     private String traccion;
-    private double precio;
+    private double precio;      //validar que sea positivo
     private ArrayList<Oferta> ofertas;
     private Usuario vendedor; 
     private int id_vendedor;  
     private String imagen;
+    private TipoVehiculo tipo;
     
     //constructor de carros, no tiene traccion
-    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, double precio, Usuario vendedor, int id_vendedor, String imagen) {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.year = year;
-        this.recorrido = recorrido;
         this.color = color;
         this.tipo_combustible = tipo_combustible;
-        this.vidrios = vidrios;
         this.transmicion = transmicion;
-        this.precio = precio;
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
         this.imagen = imagen;
+        this.tipo = TipoVehiculo.AUTOS;
+        
+        if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
+            this.year = year;
+            this.recorrido = recorrido;
+            this.vidrios = vidrios;
+            this.precio = precio;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE year>1495 && recorrido>=0 && vidrios>=0 && precio>=0");
+            
     }
     
     //constructor de motos, no tiene vidrios, transmicion y traccion
-    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, double precio, Usuario vendedor, int id_vendedor, String imagen) {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.year = year;
-        this.recorrido = recorrido;
         this.color = color;
         this.tipo_combustible = tipo_combustible;
-        this.precio = precio;
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
         this.imagen = imagen;
+        this.tipo = TipoVehiculo.MOTOCICLETAS;
+        
+        if(year>1495 && recorrido>=0 && precio>=0){
+            this.year = year;
+            this.recorrido = recorrido;
+            this.precio = precio;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE year>1495 && recorrido>=0 && vidrios>=0 && precio>=0");
+         
     }
     
     //construcctor de camionetas tiene todo
 
-    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, String traccion, double precio, Usuario vendedor, int id_vendedor, String imagen) {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, String traccion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.year = year;
-        this.recorrido = recorrido;
         this.color = color;
         this.tipo_combustible = tipo_combustible;
-        this.vidrios = vidrios;
         this.transmicion = transmicion;
         this.traccion = traccion;
-        this.precio = precio;
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
         this.imagen = imagen;
+        this.tipo = TipoVehiculo.CAMIONETAS;
+        
+        if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
+            this.year = year;
+            this.recorrido = recorrido;
+            this.vidrios = vidrios;
+            this.precio = precio;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE year>1495 && recorrido>=0 && vidrios>=0 && precio>=0");
+        
     }
 
     public int getId() {
@@ -140,16 +162,26 @@ public class Vehiculo {
         return year;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setYear(int year) throws ValueTypeException {
+        if(year>1495){
+            this.year = year;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE year>1495");
+         
     }
 
     public double getRecorrido() {
         return recorrido;
     }
 
-    public void setRecorrido(double recorrido) {
-        this.recorrido = recorrido;
+    public void setRecorrido(double recorrido) throws ValueTypeException {
+        if(recorrido>=0){
+            this.recorrido = recorrido;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE recorrido>=0");
+         
     }
 
     public String getColor() {
@@ -172,8 +204,13 @@ public class Vehiculo {
         return vidrios;
     }
 
-    public void setVidrios(int vidrios) {
-        this.vidrios = vidrios;
+    public void setVidrios(int vidrios) throws ValueTypeException {
+        if(vidrios>=0){
+            this.vidrios = vidrios;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE vidrios>=0");
+        
     }
 
     public String getTransmicion() {
@@ -196,8 +233,13 @@ public class Vehiculo {
         return precio;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public void setPrecio(double precio) throws ValueTypeException {
+        if(precio>=0){
+            this.precio = precio;
+        }
+        else
+            throw new ValueTypeException("NO SE CUMPLE precio>=0");
+        
     }
 
     public ArrayList<Oferta> getOfertas() {
@@ -230,6 +272,14 @@ public class Vehiculo {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public TipoVehiculo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TipoVehiculo tipo) {
+        this.tipo = tipo;
     }
 
     @Override
@@ -321,36 +371,13 @@ public class Vehiculo {
         }
         return null;
     }
-    
-    public static ArrayList<Vehiculo> searchByTipo(ArrayList<Vehiculo> vehiculos, String tipo){
+        
+    public static ArrayList<Vehiculo> searchByTipo(ArrayList<Vehiculo> vehiculos, TipoVehiculo tipo){
         ArrayList<Vehiculo> filtro_vehiculos = new ArrayList<>();
-        if(tipo.equals("moto")){
-        for(Vehiculo vehiculo : vehiculos)
-            {
-            if (vehiculo.getVidrios()==0 && vehiculo.getTraccion().equals("null") && vehiculo.getTransmicion().equals("null")) //moto
-                    filtro_vehiculos.add(vehiculo);
-            }
-        }
-        
-        if(tipo.equals("carro")){
-        for(Vehiculo vehiculo : vehiculos)
-            {
-            if (vehiculo.getVidrios()!=0 && vehiculo.getTraccion().equals("null") && !vehiculo.getTransmicion().equals("null")) //carro
-                    filtro_vehiculos.add(vehiculo);
-            }
-        }
-        if(tipo.equals("camioneta")){
-        for(Vehiculo vehiculo : vehiculos)
-            {
-            if (vehiculo.getVidrios()!=0 && !vehiculo.getTraccion().equals("null") && !vehiculo.getTransmicion().equals("null")) //camioneta
-                    filtro_vehiculos.add(vehiculo);
-            }
-        }
-        
-        else
-            filtro_vehiculos = vehiculos;
-            
-        
+        for(Vehiculo vehiculo : vehiculos){
+            if (vehiculo.getTipo() == tipo) //moto
+                filtro_vehiculos.add(vehiculo);
+            }        
         return filtro_vehiculos;
     }
     
@@ -409,6 +436,15 @@ public class Vehiculo {
            }
        }
         return filtro_vehiculos;
+    }
+    
+    public static Boolean validacionPlaca(String placa, ArrayList<Vehiculo> vehiculos){
+        
+        for(Vehiculo vehiculo: vehiculos){
+            if(vehiculo.getPlaca().equals(placa))
+                return true;
+        }
+        return false;
     }
     
 }
