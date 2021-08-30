@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controller.CompradorController">
+   <children>
+      <Button fx:id="registrar" layoutX="209.0" layoutY="95.0" mnemonicParsing="false" text="Registrar un nuevo comprador." />
+      <Button fx:id="ofertar" layoutX="228.0" layoutY="174.0" mnemonicParsing="false" text="Ofertar por un vehiculo." />
+      <Button fx:id="regresar" layoutX="266.0" layoutY="246.0" mnemonicParsing="false" text="Regresar." />
+      <Text layoutX="44.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="COMPRADOR " />
+   </children>
+</AnchorPane>
