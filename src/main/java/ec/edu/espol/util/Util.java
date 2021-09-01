@@ -5,6 +5,9 @@
  */
 package ec.edu.espol.util;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.util.Properties;
@@ -26,10 +29,20 @@ import java.security.NoSuchAlgorithmException;
 public class Util {
    private Util(){}
    
-   public boolean enviarCorreo(String asunto, String cuerpo, String email) {
-        String remitente = "ventadevehiculosproyecto@hotmail.com";
-        String clave = "12345678VV";
-        
+   public boolean enviarCorreo(String cuerpo, String email) {
+        String remitente = "";
+        String clave = "";
+        String asunto = "";
+        Properties propsCorreo =  new Properties();
+       try {
+           propsCorreo.load(new FileReader("correo.properties"));
+           remitente = propsCorreo.getProperty("Correo");
+           clave = propsCorreo.getProperty("Clave");
+           asunto = propsCorreo.getProperty("Asunto");
+       } catch (FileNotFoundException ex) {
+       } catch (IOException ex) {
+       }
+       
         Properties props = System.getProperties();
         System.out.println("Enviando correo...");
    
@@ -59,12 +72,11 @@ public class Util {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));   
             message.setSubject(asunto);
             message.setText(cuerpo);
-            Transport transport = session.getTransport("smtp");
-            transport.connect("smtp.office365.com", remitente, clave);
-
-            transport.sendMessage(message, message.getAllRecipients());
-
-            transport.close();
+            try (Transport transport = session.getTransport("smtp")) {
+                transport.connect("smtp.office365.com", remitente, clave);
+                
+                transport.sendMessage(message, message.getAllRecipients());
+            }
         }
         catch (MessagingException me) {
             System.err.println(me.getMessage());   //Si se produce un error
