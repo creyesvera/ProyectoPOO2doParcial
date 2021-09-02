@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import java.io.IOException;
@@ -18,7 +19,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
@@ -46,6 +49,14 @@ public class RegistrarUsuarioController implements Initializable {
     private Button btregistrar;
     @FXML
     private Button btiniciarsesion;
+    @FXML
+    private RadioButton compradortype;
+    @FXML
+    private ToggleGroup tipo;
+    @FXML
+    private RadioButton vendedortype;
+    @FXML
+    private RadioButton ambostype;
     
     /**
      * Initializes the controller class.
@@ -81,7 +92,15 @@ public class RegistrarUsuarioController implements Initializable {
             String organizacion = organibox.getText();
             String clave = passwordbox.getText();
             int id=0 ;
-            this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave);
+            TipoUsuario tipo;
+            if (compradortype.isSelected())
+                tipo = TipoUsuario.COMPRADOR;
+            else if (vendedortype.isSelected())
+                tipo = TipoUsuario.VENDEDOR;
+            else
+                tipo = TipoUsuario.AMBOS;
+            
+            this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave,tipo);
             usuarios.add(usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
         
