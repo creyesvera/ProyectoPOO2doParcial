@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
     private TipoUsuario tipo;
     private static final long serialVersionUID = 8456845698545269L;
 
-    public Usuario(int id, String nombres, String apellidos, String correo_elec, String organizacion, String clave) {
+    public Usuario(int id, String nombres, String apellidos, String correo_elec, String organizacion, String clave, TipoUsuario tipo) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -35,6 +35,7 @@ public class Usuario implements Serializable {
         this.clave = clave;
         this.vehiculos = new ArrayList<>();
         this.ofertas = new ArrayList<>();
+        this.tipo = tipo;
     }
 
     public int getId() {
