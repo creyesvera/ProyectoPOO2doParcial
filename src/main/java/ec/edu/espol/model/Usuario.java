@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.model;
 
+import ec.edu.espol.util.Util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,13 +27,16 @@ public class Usuario implements Serializable {
     private TipoUsuario tipo;
     private static final long serialVersionUID = 8456845698545269L;
 
-    public Usuario(int id, String nombres, String apellidos, String correo_elec, String organizacion, String clave, TipoUsuario tipo) {
+    public Usuario(int id, String nombres, String apellidos, String correo_elec, String organizacion, String clave, TipoUsuario tipo) throws ValueTypeException {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this.correo_elec = correo_elec;
+        if(Util.validacionCorreo(correo_elec))
+            this.correo_elec = correo_elec;
+        else
+            throw new ValueTypeException("El correo es incorrecto");
         this.organizacion = organizacion;
-        this.clave = clave;
+        this.clave = Util.toHexString(Util.getSHA(clave));
         this.vehiculos = new ArrayList<>();
         this.ofertas = new ArrayList<>();
         this.tipo = tipo;
@@ -66,8 +70,11 @@ public class Usuario implements Serializable {
         return correo_elec;
     }
 
-    public void setCorreo_elec(String correo_elec) {
-        this.correo_elec = correo_elec;
+    public void setCorreo_elec(String correo_elec) throws ValueTypeException {
+        if(Util.validacionCorreo(correo_elec))
+            this.correo_elec = correo_elec;
+        else
+            throw new ValueTypeException("El correo es incorrecto");
     }
 
     public String getOrganizacion() {
@@ -83,7 +90,7 @@ public class Usuario implements Serializable {
     }
 
     public void setClave(String clave) {
-        this.clave = clave;
+        this.clave = Util.toHexString(Util.getSHA(clave));
     }
 
     public ArrayList<Vehiculo> getVehiculos() {
@@ -179,7 +186,7 @@ public class Usuario implements Serializable {
     {
         for(Usuario user : usuarios)
         {
-            if(user.correo_elec.equals(correo) && user.clave.equals(clave) )
+            if(user.correo_elec.equals(correo) && user.clave.equals(Util.toHexString(Util.getSHA(clave))))
                 return user;
         }
         return null;
