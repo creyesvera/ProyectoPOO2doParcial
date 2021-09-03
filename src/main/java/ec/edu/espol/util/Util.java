@@ -29,6 +29,24 @@ import java.security.NoSuchAlgorithmException;
 public class Util {
    private Util(){}
    
+       public static int nextID(String nomfile)
+    {
+        int id = 0;
+        try(Scanner sc = new Scanner(new File(nomfile)))
+        {
+           while(sc.hasNextLine())
+           {
+               String linea = sc.nextLine();
+               String[] tokens = linea.split("\\|");
+               id = Integer.parseInt(tokens[0]);
+           }
+        }
+        catch(Exception e)
+        {
+        }
+        return id+1;
+    }
+   
    public boolean enviarCorreo(String cuerpo, String email) {
         String remitente = "";
         String clave = "";
@@ -106,5 +124,23 @@ public class Util {
         }
         return hexString.toString(); //retorna el string en el formato toString() antes programado
     }
+    
+    public static Boolean validacionCorreo(String correo){
+        /*if (correo.endsWith("@gmail.com")){
+            String[] mail= correo.split("\\@");
+            if(mail.length == 2){
+                String prt1 = mail[0];
+                if (prt1.charAt(prt1.length()))
+                return true;
+            }
+*/
+        if ((correo.contains("@") && correo.contains("."))){
+            String[] correoArroba= correo.split("\\@");
+            if(correoArroba.length == 2){
+                return true;
+            }
+        }
+        return false;
+    } //true si el correo esta bien escrito
 
 }
