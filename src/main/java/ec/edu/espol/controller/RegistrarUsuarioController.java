@@ -7,6 +7,7 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -24,6 +27,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -73,7 +77,7 @@ public class RegistrarUsuarioController implements Initializable {
     @FXML
     private void regresar(MouseEvent event) {
         try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("registrarUsuario");
+            FXMLLoader fxmlloader = App.loadFXMLLoader("iniciarSesion");
             App.setRoot(fxmlloader);
             IniciarSesionController sesion = fxmlloader.getController();
             if (usuario != null)
@@ -104,7 +108,7 @@ public class RegistrarUsuarioController implements Initializable {
             usuarios.add(usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
         
-        }catch(Exception e){
+        }catch(ValueTypeException e){
         Alert a = new Alert(AlertType.ERROR,"El correo que ingreso no es valido");
         a.show();
         }
@@ -114,13 +118,35 @@ public class RegistrarUsuarioController implements Initializable {
     private void iniciarsesion(MouseEvent event) {
         try {
             FXMLLoader fxmlloader = App.loadFXMLLoader("iniciarSesion");
-            App.setRoot(fxmlloader);
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            /*
             IniciarSesionController sesion = fxmlloader.getController();
             if (usuario != null)
                 sesion.setUsuario(usuario);
+            */
+            cerrarVentana();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
+    
+    private void cerrarVentana(){
+        Stage myStage = (Stage) this.btiniciarsesion.getScene().getWindow();
+        myStage.close();
+    }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    
 }
