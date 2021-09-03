@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.Usuario;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -24,6 +25,8 @@ public class CompradorController implements Initializable {
     private Button ofertar;
     @FXML
     private Button regresar;
+    
+    private CompradorController cC;
 
     /**
      * Initializes the controller class.
@@ -33,6 +36,9 @@ public class CompradorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        cC = this;
     }    
-    
+    public void recibirParametros(Usuario usuario) {
+
+    }
 }
