@@ -26,7 +26,9 @@ public class CompradorController implements Initializable {
     @FXML
     private Button regresar;
     
-    private CompradorController cC;
+    private CompradorController cC;// para que es esto?
+    
+    private Usuario usuario;
 
     /**
      * Initializes the controller class.
@@ -36,9 +38,19 @@ public class CompradorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        cC = this;
+        cC = this;// se inicializa el mismo atributo con su mismo valor ... No le veo mucho sentido
     }    
     public void recibirParametros(Usuario usuario) {
 
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
 }
