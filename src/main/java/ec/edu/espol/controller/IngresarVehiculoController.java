@@ -10,6 +10,10 @@ import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -18,9 +22,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * FXML Controller class
@@ -30,6 +40,7 @@ import javafx.scene.input.MouseEvent;
 public class IngresarVehiculoController implements Initializable {
     private ArrayList<Vehiculo> vehiculos = Vehiculo.readFile("vehiculos.ser");
     private Usuario usuario;
+    private byte[] byteimage;
     @FXML
     private Button btregresar;
     @FXML
@@ -59,7 +70,7 @@ public class IngresarVehiculoController implements Initializable {
     @FXML
     private TextField preciobox;
     @FXML
-    private TextField imgbox;
+    private Text imgbox;
     @FXML
     private Button btimport;
 
@@ -78,7 +89,6 @@ public class IngresarVehiculoController implements Initializable {
         colorbox.clear();
         tipo_combustiblebox.clear();
         preciobox.clear();
-        imgbox.clear();
         vidriosbox.clear(); //null si es moto 
         transmicionbox.clear(); //null si es moto 
         traccionbox.clear(); //null si es moto y carros
@@ -91,14 +101,16 @@ public class IngresarVehiculoController implements Initializable {
 
     @FXML
     private void ingresar(MouseEvent event) throws NoUserException {
-        if(usuario == null){
+        /*if(usuario == null){
             Alert alerta = new Alert(Alert.AlertType.INFORMATION,"Por favor iniciar sesión");
             alerta.show(); 
             throw new NoUserException("no existe el usuario");   
         }
+        */
         
         try{
             String placa = placabox.getText();
+            /*
             String marca = marcabox.getText();
             String modelo = modelobox.getText();
             String tipo_motor = tipo_motorbox.getText();
@@ -107,14 +119,20 @@ public class IngresarVehiculoController implements Initializable {
             String color = colorbox.getText();
             String tipo_combustible = tipo_combustiblebox.getText();
             double precio = Double.parseDouble(preciobox.getText());
-            String imagen = imgbox.getText();
+            */
+            String imagen = saveImgName();
+            if(imagen  == null){
+                Alert a = new Alert(AlertType.WARNING,"Por favor importe la imagen del vehiculo");
+                a.show();
+            }
+            /*
             
-            int id=0 ;
+            int id=0 ; 
             Usuario vendedor=null;
             int id_vendedor=0;
             
             Vehiculo v;
-            /**/
+            
             if(traccionbox == null){
                 if(transmicionbox == null && vidriosbox == null){
                     v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, precio, vendedor, id_vendedor, imagen);
@@ -134,18 +152,54 @@ public class IngresarVehiculoController implements Initializable {
             
             vehiculos.add(v);
             Vehiculo.saveFile("vehiculos.ser", vehiculos);
+            
+            */
         }catch(NumberFormatException e){
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores numericos");
             a.show();
-        } catch (ValueTypeException ex) {
+        } /*catch (ValueTypeException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores positivos");
             a.show();
-        }
+        }*/
     }
 
     @FXML
     private void importar(MouseEvent event) {
-        
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(
+        new ExtensionFilter ("Image Files","*.jpg", "*.png","*.jpge", "*.png"));
+        File selectedfile = fc.showOpenDialog(null);
+        if (selectedfile != null){
+            try {
+                
+                byteimage = new byte[1024*100];
+                imgbox.setText(selectedfile.getName());
+                FileInputStream img = new FileInputStream(selectedfile);
+                img.read(byteimage);
+                    } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+        }
+        }
+    }
+    
+    private String saveImgName(){ ///tengo problemas para guargar la imagen en el archivo
+        String imagen = null;
+        try {
+            FileOutputStream archivosimg = new FileOutputStream(placabox.getText());
+            archivosimg.write(byteimage);
+            imagen = placabox.getText();
+            
+        } catch (FileNotFoundException ex) {
+            Alert a = new Alert(Alert.AlertType.ERROR,"no hay archivp");
+            a.show();
+            ex.printStackTrace();
+        } catch (IOException ex) {
+                ex.printStackTrace();
+        }
+            
+        return imagen;
     }
 
     public Usuario getUsuario() {
