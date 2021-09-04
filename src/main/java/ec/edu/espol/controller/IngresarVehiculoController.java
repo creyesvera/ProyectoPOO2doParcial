@@ -5,7 +5,6 @@
  */
 package ec.edu.espol.controller;
 
-import ec.edu.espol.controller.NoUserException;
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.ValueTypeException;
@@ -112,7 +111,7 @@ public class IngresarVehiculoController implements Initializable {
     }
 
     @FXML
-    private void ingresar(MouseEvent event) throws NoUserException {
+    private void ingresar(MouseEvent event) {
         
         try{
             String placa = placabox.getText();
