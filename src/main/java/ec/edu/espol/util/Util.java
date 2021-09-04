@@ -128,4 +128,22 @@ public class Util {
        }
         return false;
     }
+    
+    public static boolean esDouble(String numero){
+        try{
+            double num = Double.parseDouble(numero);
+            return true;
+        }catch(NumberFormatException ex){
+            return false;
+        }
+    }
+    public static boolean esInteger(String numero){
+        try{
+            int num = Integer.parseInt(numero);
+            return true;
+        }catch(NumberFormatException ex){
+            return false;
+        }
+    }
+    
 }
