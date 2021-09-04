@@ -24,6 +24,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 /**
  *
  * @author camil
@@ -109,31 +111,21 @@ public class Util {
         return hexString.toString(); //retorna el string en el formato toString() antes programado
     }
     
-    public static Boolean validacionCorreo(String correo){
-        if (correo.endsWith("@gmail.com")){
-            String[] mail= correo.split("\\@");
-            if(mail.length == 2){
-                return true;
-            }
-        }
-/*
-        if ((correo.contains("@") && correo.contains("."))){
-            String[] correoArroba= correo.split("\\@");
-            if(correoArroba.length == 2){
-                return true;
-            }
-        }
-*/
-        return false;
+    public static Boolean validacionCorreo(String email){
+        // Patrón para validar el email
+        Pattern pattern = Pattern
+                .compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");         
+        Matcher mather = pattern.matcher(email);
+        
+        return mather.find();
     } //true si el correo esta bien escrito
 
     //true si la placa existe en la lista de vehiculos
-        public static Boolean validacionPlaca(String placa, ArrayList<Vehiculo> vehiculos){
-        
-        for(Vehiculo vehiculo: vehiculos){
-            if(vehiculo.getPlaca().equals(placa))
-                return true;
-        }
+    public static Boolean validacionPlaca(String placa, ArrayList<Vehiculo> vehiculos){        
+       if (vehiculos.stream().anyMatch(vehiculo -> (vehiculo.getPlaca().equals(placa)))) {
+           return true;
+       }
         return false;
     }
 }
