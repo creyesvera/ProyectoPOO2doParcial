@@ -7,7 +7,7 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
-import ec.edu.espol.model.ValueTypeException;
+import ec.edu.espol.excepciones.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import java.io.IOException;
 import java.net.URL;
@@ -37,8 +37,6 @@ import javafx.stage.Stage;
 public class RegistrarUsuarioController implements Initializable {
     private ArrayList<Usuario> usuarios;
     private Usuario usuario;
-    @FXML
-    private Button btregresar;
     @FXML
     private TextField nombox;
     @FXML
@@ -75,7 +73,6 @@ public class RegistrarUsuarioController implements Initializable {
         passwordbox.clear();
     }    
 
-    @FXML
     private void regresar(MouseEvent event) {
         try {
             FXMLLoader fxmlloader = App.loadFXMLLoader("iniciarSesion");

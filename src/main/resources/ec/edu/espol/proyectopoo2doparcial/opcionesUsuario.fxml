@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="452.0" prefWidth="552.0" style="-fx-background-color: #F2F2F2;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controller.OpcionesUsuarioController">
+   <top>
+      <VBox alignment="BOTTOM_CENTER" prefHeight="116.0" prefWidth="420.0" style="-fx-background-color: black;" BorderPane.alignment="BOTTOM_CENTER">
+         <children>
+            <ImageView fitHeight="83.0" fitWidth="239.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagenes/logo.png" />
+               </image>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </ImageView>
+            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MenuBar HBox.hgrow="ALWAYS">
+                    <menus>
+                      <Menu fx:id="menuComprador" mnemonicParsing="false" text="Comprador">
+                        <items>
+                              <MenuItem fx:id="itemOfertar" mnemonicParsing="false" text="Ofertar por vehiculo" />
+                          <MenuItem fx:id="itemVerOfertas" mnemonicParsing="false" text="Ver ofertas realizadas" />
+                        </items>
+                      </Menu>
+                      <Menu fx:id="menuVendedor" mnemonicParsing="false" text="Vendedor">
+                        <items>
+                          <MenuItem fx:id="itemAgregarVehiculo" mnemonicParsing="false" text="Agregar nuevo vehiculo" />
+                              <MenuItem fx:id="itemAceptarOferta" mnemonicParsing="false" text="Aceptar oferta" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+                  <MenuBar>
+                    <menus>
+                      <Menu fx:id="menuCuenta" mnemonicParsing="false" text="Cuenta">
+                        <items>
+                              <MenuItem fx:id="itemConfiguracion" mnemonicParsing="false" text="Configuracion" />
+                          <MenuItem fx:id="itemCerrarSesion" mnemonicParsing="false" text="Cerrar Sesion" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </top>
+   <center>
+      <BorderPane fx:id="root" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
+         </BorderPane.margin>
+      </BorderPane>
+   </center>
+</BorderPane>

@@ -7,9 +7,10 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
-import ec.edu.espol.model.ValueTypeException;
+import ec.edu.espol.excepciones.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
+import ec.edu.espol.util.Alarmas;
 import ec.edu.espol.util.Util;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -77,9 +79,13 @@ public class IngresarVehiculoController implements Initializable {
     private Text imgbox;
     @FXML
     private Button btimport;
+    @FXML
+    private BorderPane root;
 
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -102,12 +108,13 @@ public class IngresarVehiculoController implements Initializable {
 
     @FXML
     private void regresar(MouseEvent event) {
+        /*
         if (usuario.getTipo() == TipoUsuario.COMPRADOR)
                 compradorsesion();
             else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
                 vendedorsesion();
             else 
-                ambossesion();
+                ambossesion();*/
     }
 
     @FXML
@@ -203,7 +210,7 @@ public class IngresarVehiculoController implements Initializable {
             imagen = placabox.getText()+".jpg";
             
         } catch (FileNotFoundException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR,"no hay archivp");
+            Alert a = new Alert(Alert.AlertType.ERROR,"no hay archivo");
             a.show();
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -226,7 +233,7 @@ public class IngresarVehiculoController implements Initializable {
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
     }
-    
+    /*
     private void compradorsesion(){
     try {
             FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
@@ -237,13 +244,13 @@ public class IngresarVehiculoController implements Initializable {
             stage.setScene(scene);
             stage.show();
             
-            CompradorController sesion = fxmlloader.getController();
+            OpcionesUsuarioController sesion = fxmlloader.getController();
             if (usuario != null)
-                sesion.setUsuario(usuario);///Comprador Controller debe tener atributo vendedor
+                sesion.recibirParametros(usuario);///Comprador Controller debe tener atributo vendedor
             
             cerrarVentana();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Alarmas.alertaError("ERROR", ex.getMessage());
         }
     }
     
@@ -256,11 +263,6 @@ public class IngresarVehiculoController implements Initializable {
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
-            /*
-            VendedorController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-            */
             cerrarVentana();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -280,13 +282,20 @@ public class IngresarVehiculoController implements Initializable {
             AmbosController sesion = fxmlloader.getController();
             if (usuario != null)
                 sesion.setUsuario(usuario);
-            */
             cerrarVentana();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
    
-    
+    */
+
+    public BorderPane getRoot() {
+        return root;
+    }
+
+    public void setRoot(BorderPane root) {
+        this.root = root;
+    }
     
 }

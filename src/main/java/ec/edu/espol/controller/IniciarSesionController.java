@@ -8,6 +8,7 @@ package ec.edu.espol.controller;
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.proyectopoo2doparcial.App;
+import static ec.edu.espol.util.Alarmas.alertaError;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -74,13 +75,21 @@ public class IniciarSesionController implements Initializable {
         String email = emailbox.getText();
         String password = passwordbox.getText();
         this.setUsuario(Usuario.searchByCorreoYClave(usuarios, email, password)); //dentro de searchByCorreoYClave la clave se convierte a hash y se compara con las otras claves de la lista (las cuales ya estan en hash)
-        if(getUsuario()!= null){
-            if (usuario.getTipo() == TipoUsuario.COMPRADOR)
-                compradorsesion();
-            else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
-                vendedorsesion();
-            else 
-                ambossesion();
+        if(getUsuario()!= null){            
+            try{
+                FXMLLoader loader = App.loadFXMLLoader("opcionesUsuario"); 
+                Parent root = loader.load();                
+                OpcionesUsuarioController opU = loader.getController();
+                opU.recibirParametros(usuario);
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setResizable(false);
+                stage.setScene(scene);
+                stage.show();
+                cerrarVentana();
+            } catch (IOException ex) {
+                alertaError("Ha ocurrido un error",ex.getMessage());
+            }
         }
         else{
             Alert a = new Alert(Alert.AlertType.INFORMATION,"El correo y/o la clave son incorrectos");
@@ -100,66 +109,5 @@ public class IniciarSesionController implements Initializable {
     private void cerrarVentana(){
         Stage myStage = (Stage) this.btiniciarsesion.getScene().getWindow();
         myStage.close();
-    }
-    
-    private void compradorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            
-            CompradorController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);///Comprador Controller debe tener atributo vendedor
-            
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private void vendedorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("vendedor");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            /*
-            VendedorController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-            */
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private void ambossesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("ambos");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            /*
-            AmbosController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-            */
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
+    }            
 }

@@ -107,11 +107,7 @@
    <bottom>
       <HBox alignment="CENTER" prefHeight="35.0" prefWidth="418.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="btiniciarsesion" mnemonicParsing="false" onMouseClicked="#iniciarsesion" style="-fx-background-color: black;" text="Iniciar Sesión" textFill="WHITE">
-               <font>
-                  <Font name="Times New Roman" size="14.0" />
-               </font></Button>
-            <Button fx:id="btregresar" mnemonicParsing="false" onMouseClicked="#regresar" style="-fx-background-color: black;" text="Regresar" textFill="WHITE">
+            <Button fx:id="btiniciarsesion" mnemonicParsing="false" onMouseClicked="#iniciarsesion" prefWidth="82.0" style="-fx-background-color: black;" text="Regresar" textFill="WHITE">
                <font>
                   <Font name="Times New Roman" size="14.0" />
                </font></Button>
