@@ -102,7 +102,7 @@
             <TextField fx:id="transmicionbox" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField fx:id="traccionbox" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <TextField fx:id="preciobox" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <TextField fx:id="imgbox" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <Text fx:id="imgbox" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar imágen de menos de 1MB" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Button fx:id="btimport" mnemonicParsing="false" onMouseClicked="#importar" style="-fx-background-radius: 12px; -fx-background-color: #595959;" text="Importar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
                <font>
                   <Font name="System Bold" size="12.0" />
