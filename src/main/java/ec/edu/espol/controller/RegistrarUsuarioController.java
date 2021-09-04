@@ -89,13 +89,16 @@ public class RegistrarUsuarioController implements Initializable {
     }
 
     @FXML
-    private void registrar(MouseEvent event) {
+    private void registrar(MouseEvent event) throws ValueTypeException{
         try{
             String nombres = nombox.getText();
             String apellidos = apelbox.getText();
             String correo_elec = emailbox.getText();
             String organizacion = organibox.getText();
             String clave = passwordbox.getText();
+            if(Usuario.searchBycorreoID(correo_elec,usuarios)==-1)
+                throw new ValueTypeException("El usuario ya exciste");
+            
             int id =  Usuario.nextID("usuarios.ser");
             TipoUsuario tipo;
             if (compradortype.isSelected())
@@ -110,7 +113,7 @@ public class RegistrarUsuarioController implements Initializable {
             Usuario.saveFile("usuarios.ser", usuarios);
         
         }catch(ValueTypeException e){
-        Alert a = new Alert(AlertType.ERROR,"El correo que ingreso no es valido");
+        Alert a = new Alert(AlertType.ERROR,e.getMessage());
         a.show();
         }
     }
