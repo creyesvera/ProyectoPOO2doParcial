@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
         if(Util.validacionCorreo(correo_elec))
             this.correo_elec = correo_elec;
         else
-            throw new ValueTypeException("El correo es incorrecto");
+            throw new ValueTypeException("El correo que ingreso no es valido");
         this.organizacion = organizacion;
         this.clave = Util.toHexString(Util.getSHA(clave));
         this.vehiculos = new ArrayList<>();
