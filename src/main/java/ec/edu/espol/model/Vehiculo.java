@@ -50,7 +50,10 @@ public class Vehiculo {
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
-        this.imagen = imagen;
+        if (imagen != null)
+            this.imagen = imagen;
+        else
+            throw new ValueTypeException("Error al guardar la imagen, verificar que se haya importado una imagen y que el numero de placa es correcto");
         this.tipo = TipoVehiculo.AUTOS;
         
         if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
@@ -76,7 +79,10 @@ public class Vehiculo {
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
-        this.imagen = imagen;
+        if (imagen != null)
+            this.imagen = imagen;
+        else
+            throw new ValueTypeException("Error al guardar la imagen, verificar que se haya importado una imagen y que el numero de placa es correcto");
         this.tipo = TipoVehiculo.MOTOCICLETAS;
         
         if(year>1495 && recorrido>=0 && precio>=0){
@@ -104,7 +110,11 @@ public class Vehiculo {
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
-        this.imagen = imagen;
+        if (imagen != null)
+            this.imagen = imagen;
+        else
+            throw new ValueTypeException("Error al guardar la imagen, verificar que se haya importado una imagen y que el numero de placa es correcto");
+        
         this.tipo = TipoVehiculo.CAMIONETAS;
         
         if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
@@ -270,8 +280,11 @@ public class Vehiculo {
         return imagen;
     }
 
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
+    public void setImagen(String imagen) throws ValueTypeException {
+        if (imagen != null)
+            this.imagen = imagen;
+        else
+            throw new ValueTypeException("Error al guardar la imagen, verificar que se haya importado una imagen y que el numero de placa es correcto");
     }
 
     public TipoVehiculo getTipo() {
