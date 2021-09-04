@@ -10,6 +10,7 @@ import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
+import ec.edu.espol.util.Util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,7 +39,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * @author camil
  */
 public class IngresarVehiculoController implements Initializable {
-    private ArrayList<Vehiculo> vehiculos = Vehiculo.readFile("vehiculos.ser");
+    private ArrayList<Vehiculo> vehiculos;
     private Usuario usuario;
     private byte[] byteimage;
     @FXML
@@ -80,6 +81,7 @@ public class IngresarVehiculoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        vehiculos = Vehiculo.readFile("vehiculos.ser");
         placabox.clear();
         marcabox.clear();
         modelobox.clear();
@@ -101,16 +103,13 @@ public class IngresarVehiculoController implements Initializable {
 
     @FXML
     private void ingresar(MouseEvent event) throws NoUserException {
-        /*if(usuario == null){
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION,"Por favor iniciar sesión");
-            alerta.show(); 
-            throw new NoUserException("no existe el usuario");   
-        }
-        */
         
         try{
             String placa = placabox.getText();
-            /*
+            if (placa== null || Util.validacionPlaca(placa,vehiculos)){
+                Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese otro numero de placa");
+                a.show();
+            }
             String marca = marcabox.getText();
             String modelo = modelobox.getText();
             String tipo_motor = tipo_motorbox.getText();
@@ -119,13 +118,13 @@ public class IngresarVehiculoController implements Initializable {
             String color = colorbox.getText();
             String tipo_combustible = tipo_combustiblebox.getText();
             double precio = Double.parseDouble(preciobox.getText());
-            */
+            
             String imagen = saveImgName();
             if(imagen  == null){
                 Alert a = new Alert(AlertType.WARNING,"Por favor importe la imagen del vehiculo");
                 a.show();
             }
-            /*
+            
             
             int id=0 ; 
             Usuario vendedor=null;
@@ -152,27 +151,27 @@ public class IngresarVehiculoController implements Initializable {
             
             vehiculos.add(v);
             Vehiculo.saveFile("vehiculos.ser", vehiculos);
+           
             
-            */
         }catch(NumberFormatException e){
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores numericos");
             a.show();
-        } /*catch (ValueTypeException ex) {
+        } catch (ValueTypeException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores positivos");
             a.show();
-        }*/
+        }
     }
 
     @FXML
     private void importar(MouseEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(
-        new ExtensionFilter ("Image Files","*.jpg", "*.png","*.jpge", "*.png"));
+        fc.getExtensionFilters().addAll( ///imagenes menores a 100 k
+        new ExtensionFilter ("Image Files","*.jpg", "*.png","*.jpge"));
         File selectedfile = fc.showOpenDialog(null);
         if (selectedfile != null){
             try {
                 
-                byteimage = new byte[1024*100];
+                byteimage = new byte[1024*100];//100k bytes
                 imgbox.setText(selectedfile.getName());
                 FileInputStream img = new FileInputStream(selectedfile);
                 img.read(byteimage);
@@ -184,12 +183,12 @@ public class IngresarVehiculoController implements Initializable {
         }
     }
     
-    private String saveImgName(){ ///tengo problemas para guargar la imagen en el archivo
+    private String saveImgName(){ 
         String imagen = null;
         try {
-            FileOutputStream archivosimg = new FileOutputStream(placabox.getText());
+            FileOutputStream archivosimg = new FileOutputStream("src//main//resources//ec//edu//espol//imagenes_vehiculos//"+placabox.getText()+".jpg");
             archivosimg.write(byteimage);
-            imagen = placabox.getText();
+            imagen = placabox.getText()+".jpg";
             
         } catch (FileNotFoundException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR,"no hay archivp");
