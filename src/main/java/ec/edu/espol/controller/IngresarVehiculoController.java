@@ -110,6 +110,7 @@ public class IngresarVehiculoController implements Initializable {
                 Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese otro numero de placa");
                 a.show();
             }
+            
             String marca = marcabox.getText();
             String modelo = modelobox.getText();
             String tipo_motor = tipo_motorbox.getText();
@@ -152,11 +153,13 @@ public class IngresarVehiculoController implements Initializable {
             vehiculos.add(v);
             Vehiculo.saveFile("vehiculos.ser", vehiculos);
            
+            Alert ok = new Alert(Alert.AlertType.CONFIRMATION,"Ell vehículo se a registrado con éxito");
+            ok.show();
             
         }catch(NumberFormatException e){
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores numericos");
             a.show();
-        } catch (ValueTypeException ex) {
+        }catch (ValueTypeException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores positivos");
             a.show();
         }
@@ -165,13 +168,13 @@ public class IngresarVehiculoController implements Initializable {
     @FXML
     private void importar(MouseEvent event) {
         FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll( ///imagenes menores a 100 k
+        fc.getExtensionFilters().addAll( ///imagenes menores a 100M
         new ExtensionFilter ("Image Files","*.jpg", "*.png","*.jpge"));
         File selectedfile = fc.showOpenDialog(null);
         if (selectedfile != null){
             try {
                 
-                byteimage = new byte[1024*100];//100k bytes
+                byteimage = new byte[1024*1000];//100M bytes
                 imgbox.setText(selectedfile.getName());
                 FileInputStream img = new FileInputStream(selectedfile);
                 img.read(byteimage);
