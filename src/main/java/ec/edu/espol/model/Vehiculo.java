@@ -438,13 +438,5 @@ public class Vehiculo {
         return filtro_vehiculos;
     }
     
-    public static Boolean validacionPlaca(String placa, ArrayList<Vehiculo> vehiculos){
-        
-        for(Vehiculo vehiculo: vehiculos){
-            if(vehiculo.getPlaca().equals(placa))
-                return true;
-        }
-        return false;
-    }
     
 }
