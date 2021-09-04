@@ -110,7 +110,7 @@ public class RegistrarUsuarioController implements Initializable {
             this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave,tipoU);
             usuarios.add(usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
-            alertaInformacion("USIARIO REGISTRADO","Se ha resgistrado correctamente el usuario");
+            alertaInformacion("USUARIO REGISTRADO","Se ha resgistrado correctamente el usuario");
         }catch(ValueTypeException e){
             Alert a = new Alert(AlertType.ERROR,e.getMessage());
             a.show();

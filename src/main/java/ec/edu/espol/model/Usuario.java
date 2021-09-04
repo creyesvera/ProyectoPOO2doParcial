@@ -187,7 +187,7 @@ public class Usuario implements Serializable {
     {
         for(Usuario user : usuarios)
         {
-            if(user.correo_elec.equals(correo) && user.clave.equals(Util.toHexString(Util.getSHA(clave))))
+            if(user.correo_elec.equalsIgnoreCase(correo) && user.clave.equals(Util.toHexString(Util.getSHA(clave))))
                 return user;
         }
         return null;
@@ -197,7 +197,7 @@ public class Usuario implements Serializable {
     public static int searchBycorreoID(String correo,ArrayList<Usuario> usuarios){
         for(Usuario user : usuarios)
         {
-            if(user.getCorreo_elec().equals(correo))
+            if(user.getCorreo_elec().equalsIgnoreCase(correo))
                 return user.getId();
         }
         return -1;
