@@ -201,4 +201,27 @@ public class Usuario implements Serializable {
         }
         return -1;
     }
+    
+    public void comprar(Vehiculo v, String nomfile, double precio){ //ofertas.txt
+        if(this.getTipo()!= TipoUsuario.VENDEDOR){
+        int id_oferta = Util.nextID(nomfile);
+        Oferta new_oferta = new Oferta(id_oferta, this.getId(), v.getId(), precio);
+        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile);
+        ofertas.add(new_oferta);
+        Oferta.saveFile(nomfile, ofertas);
+        }
+    }
+    
+    public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
+        ArrayList<Vehiculo> vehiculos = Vehiculo.readFile(nomfile_vehiculos);
+        vehiculos.remove(v);
+        Vehiculo.saveFile(nomfile_vehiculos,vehiculos);
+        ArrayList<Oferta> ofertas_v = v.getOfertas();
+        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
+        for(Oferta o : ofertas_v)
+            ofertas.remove(o);
+        Oferta.saveFile(nomfile_ofertas,ofertas);
+
+       
+        }
 }
