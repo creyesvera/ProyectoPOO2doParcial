@@ -25,11 +25,9 @@ public class Oferta {
     private int id_vehiculo;
     private double precio;
 
-    public Oferta(int id, Usuario comprador, int id_comprador, Vehiculo vehiculo, int id_vehiculo, double precio) {
+    public Oferta(int id, int id_comprador, int id_vehiculo, double precio) {
         this.id = id;
-        this.comprador = comprador;
         this.id_comprador = id_comprador;
-        this.vehiculo = vehiculo;
         this.id_vehiculo = id_vehiculo;
         this.precio = precio;
     }
@@ -102,7 +100,7 @@ public class Oferta {
         return true;
     }
     
-    public void saveFile(String nomfile, ArrayList<Oferta> ofertas){
+    public static void saveFile(String nomfile, ArrayList<Oferta> ofertas){
         try
         {
             FileOutputStream file = new FileOutputStream(nomfile);
