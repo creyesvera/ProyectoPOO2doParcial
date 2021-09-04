@@ -75,12 +75,12 @@ public class IniciarSesionController implements Initializable {
         String password = passwordbox.getText();
         this.setUsuario(Usuario.searchByCorreoYClave(usuarios, email, password)); //dentro de searchByCorreoYClave la clave se convierte a hash y se compara con las otras claves de la lista (las cuales ya estan en hash)
         if(getUsuario()!= null){
-        if (usuario.getTipo() == TipoUsuario.COMPRADOR)
-            compradorsesion();
-        else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
-            vendedorsesion();
-        else 
-            ambossesion();
+            if (usuario.getTipo() == TipoUsuario.COMPRADOR)
+                compradorsesion();
+            else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
+                vendedorsesion();
+            else 
+                ambossesion();
         }
         else{
             Alert a = new Alert(Alert.AlertType.INFORMATION,"El correo y/o la clave son incorrectos");
@@ -143,11 +143,23 @@ public class IniciarSesionController implements Initializable {
     }
     
     private void ambossesion(){
-    
+    try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("ambos");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            /*
+            AmbosController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);
+            */
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
     
-    private void cerrarVentana(){
-        Stage myStage = (Stage) this.btiniciarsesion.getScene().getWindow();
-        myStage.close();
-    }
 }
