@@ -6,6 +6,7 @@
 package ec.edu.espol.controller;
 
 import ec.edu.espol.controller.NoUserException;
+import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
@@ -22,6 +23,8 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -32,6 +35,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -99,6 +103,12 @@ public class IngresarVehiculoController implements Initializable {
 
     @FXML
     private void regresar(MouseEvent event) {
+        if (usuario.getTipo() == TipoUsuario.COMPRADOR)
+                compradorsesion();
+            else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
+                vendedorsesion();
+            else 
+                ambossesion();
     }
 
     @FXML
@@ -212,6 +222,72 @@ public class IngresarVehiculoController implements Initializable {
         this.usuario = usuario;
     }
     
+    
+     private void cerrarVentana(){
+        Stage myStage = (Stage) this.btregresar.getScene().getWindow();
+        myStage.close();
+    }
+    
+    private void compradorsesion(){
+    try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            
+            CompradorController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);///Comprador Controller debe tener atributo vendedor
+            
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void vendedorsesion(){
+    try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("vendedor");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            /*
+            VendedorController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);
+            */
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void ambossesion(){
+    try {
+            FXMLLoader fxmlloader = App.loadFXMLLoader("ambos");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            /*
+            AmbosController sesion = fxmlloader.getController();
+            if (usuario != null)
+                sesion.setUsuario(usuario);
+            */
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+   
     
     
 }
