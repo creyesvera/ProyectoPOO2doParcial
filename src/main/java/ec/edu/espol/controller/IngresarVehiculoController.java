@@ -108,7 +108,8 @@ public class IngresarVehiculoController implements Initializable {
         preciobox.clear();
         vidriosbox.clear(); //null si es moto 
         transmicionbox.clear(); //null si es moto 
-        traccionbox.clear(); //null si es moto y carros        
+        traccionbox.clear(); //null si es moto y carros   
+        byteimage = null;
     }    
    
     
@@ -126,10 +127,14 @@ public class IngresarVehiculoController implements Initializable {
     private void ingresar(MouseEvent event) {        
         try{
             String placa = placabox.getText();
+            String imagen = null;
             if (placa== null || Util.validacionPlaca(placa,vehiculos)){
                 Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese otro numero de placa");
                 a.show();
             }
+            else
+                imagen = saveImgName(placa);
+            
             String marca = marcabox.getText();
             String modelo = modelobox.getText();
             String tipo_motor = tipo_motorbox.getText();
@@ -139,15 +144,11 @@ public class IngresarVehiculoController implements Initializable {
             String tipo_combustible = tipo_combustiblebox.getText();
             double precio = Double.parseDouble(preciobox.getText());
             
-            String imagen = saveImgName();
-            if(imagen  == null){
-                Alert a = new Alert(AlertType.WARNING,"Por favor importe la imagen del vehiculo");
-                a.show();
-            }
+            
                         
             int id = Vehiculo.nextID("vehiculos.ser") ; 
             //Usuario vendedor=null;
-            int id_vendedor=0;
+            int id_vendedor= Usuario.nextID("usuario.ser");
             
             Vehiculo v;
             
@@ -179,7 +180,10 @@ public class IngresarVehiculoController implements Initializable {
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores numericos");
             a.show();
         }catch (ValueTypeException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores positivos");
+            Alert a = new Alert(Alert.AlertType.ERROR,ex.getMessage());
+            a.show();
+        }catch(IOException ex){
+            Alert a = new Alert(AlertType.WARNING,"Por favor importe la imagen del vehiculo");
             a.show();
         }
     }
@@ -204,18 +208,13 @@ public class IngresarVehiculoController implements Initializable {
         }
     }
        
-    private String saveImgName(){ 
-        String imagen = null;
-        try{
+    private String saveImgName(String placa) throws IOException{
             //FileOutputStream archivosimg = new FileOutputStream(getClass().getResource("/guardadas/"+placabox.getText()+".jpeg").toExternalForm())
-            FileOutputStream archivosimg = new FileOutputStream("/guardadas/"+placabox.getText()+".jpg");
+            FileOutputStream archivosimg = new FileOutputStream("/guardadas/"+placa+".jpg");
             archivosimg.write(byteimage);
-            imagen = placabox.getText()+".jpeg";
+            String imagen = placa+".jpeg";
             
-        }catch (IOException ex) {
-        }
-            
-        return imagen;
+            return imagen;
     }
 
     public Usuario getUsuario() {
