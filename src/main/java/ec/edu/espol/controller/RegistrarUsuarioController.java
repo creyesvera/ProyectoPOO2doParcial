@@ -8,6 +8,7 @@ package ec.edu.espol.controller;
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.excepciones.ValueTypeException;
+import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import static ec.edu.espol.util.Alarmas.alertaInformacion;
 import java.io.IOException;
@@ -36,7 +37,8 @@ import javafx.stage.Stage;
  * @author camil
  */
 public class RegistrarUsuarioController implements Initializable {
-    private ArrayList<Usuario> usuarios;
+    private ArrayList<Usuario> usuarios;    
+    
     
     private Usuario usuario;
     @FXML
@@ -64,6 +66,8 @@ public class RegistrarUsuarioController implements Initializable {
     
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {

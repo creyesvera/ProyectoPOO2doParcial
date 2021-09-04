@@ -6,21 +6,42 @@
 package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
+import ec.edu.espol.model.TipoVehiculo;
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.Vehiculo;
+import ec.edu.espol.proyectopoo2doparcial.App;
+import static ec.edu.espol.util.Alarmas.alertaError;
+import static ec.edu.espol.util.Util.esDouble;
+import static ec.edu.espol.util.Util.esInteger;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
  * @author User
  */
 public class OpcionesUsuarioController implements Initializable {
+    private ArrayList<Vehiculo> vehiculos;
     @FXML
     private MenuItem itemOfertar;
     @FXML
@@ -53,14 +74,13 @@ public class OpcionesUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         opC = this;               
-        
+        vehiculos = Vehiculo.readFile("vehiculos.ser");
     }    
     
     private void mostrarMenu(){
         switch (user.getTipo()) {
             case COMPRADOR:
-                menuVendedor.setVisible(false);
-                
+                menuVendedor.setVisible(false);                
                 break;
             case VENDEDOR:
                 menuComprador.setVisible(false);
@@ -71,9 +91,110 @@ public class OpcionesUsuarioController implements Initializable {
                 break;
         }                        
     }
+
+    public BorderPane getRoot() {
+        return root;
+    }
+
+    public void setRoot(BorderPane root) {
+        this.root = root;
+    }
+        
     
     public void recibirParametros(Usuario u){
         user = u;
         mostrarMenu();
     }
+    
+    @FXML
+    private void agregarVehiculo(){
+        root.getChildren().clear();
+        FXMLLoader loader; 
+        try {
+            loader = App.loadFXMLLoader("ingresarVehiculo");
+            Parent rootp = loader.load();  
+            IngresarVehiculoController opU = loader.getController();            
+            opU.recibirParametros(user);
+            Scene scene = new Scene(rootp);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();                        
+        } catch (IOException ex) {
+            alertaError("Ha ocurrido un error",ex.getMessage());
+        }
+          }                    
+                
+    @FXML
+    private void hacerOferta(){
+        root.getChildren().clear();
+        setTopHacerOfertas();
+        //Tipovehiculo, recorrido, año, precio
+       
+    }
+    
+    private void setTopHacerOfertas(){
+        ComboBox cbTipo = new ComboBox();
+        cbTipo.getItems().add(TipoVehiculo.AUTOS);
+        cbTipo.getItems().add(TipoVehiculo.CAMIONETAS);
+        cbTipo.getItems().add(TipoVehiculo.MOTOCICLETAS);
+        
+        TextField txtRecorridoInicio = new TextField();
+        TextField txtRecorridoFin = new TextField();
+        
+        TextField anioInicio = new TextField();
+        TextField anioFin = new TextField();
+        
+        TextField txtPrecioInicio = new TextField();
+        TextField txtPrecioFin = new TextField();
+        
+        Button buscar = new Button("Buscar");
+        List<TextField> txts = Arrays.asList(txtRecorridoInicio,txtRecorridoFin,anioInicio,anioFin,txtPrecioInicio,txtPrecioFin);
+        txts.forEach(e->e.setPrefWidth(80));
+        
+        VBox vbTop = new VBox(10);
+        HBox hbParametros = new HBox(10);
+        hbParametros.getChildren().addAll(new Label("Tipo de vehículo: "),cbTipo,new Label("Recorrido: "),txtRecorridoInicio,new Label("-"),txtRecorridoFin);        
+        
+        HBox hbPara = new HBox(10);
+        hbPara.getChildren().addAll(new Label("Año: "),anioInicio,new Label("-"),anioFin,new Label("Precio: $"),txtPrecioInicio,new Label("- $"),txtPrecioFin,buscar);
+        
+        vbTop.getChildren().addAll(hbParametros,hbPara);
+        root.setTop(vbTop);
+    }
+    
+    private boolean validarParametros(List<TextField> txts){
+        for(TextField t: txts){
+            if(!t.getText().trim().isEmpty()){
+                if(!esDouble(t.getText().trim()))
+                    return false;
+            }
+        }
+        return !(!esInteger(txts.get(2).getText()) || !esInteger(txts.get(3).getText()));
+    }
+    
+    private void realizarBusqueda(List<TextField> txts){
+        
+        //ArrayList<Vehiculo>  filtrar = filtrarVehiculos();
+    }
+    
+    private ArrayList<Vehiculo> filtrarVehiculos(TipoVehiculo tipo, double[] rangoRecorrido,  int[] rangoAno, double[] rangoPrecio){
+        ArrayList<Vehiculo> vehiculoSeleccionados = new ArrayList<>();  
+        if(tipo!=null){
+            for(Vehiculo v: vehiculos){
+                if (v.getTipo().equals(tipo) && v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1]
+                        && v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1] && v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1])
+                    vehiculoSeleccionados.add(v);                
+            }
+        }else{
+            for(Vehiculo v: vehiculos){
+                if ((v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1])
+                        && (v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1]) 
+                        && (v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1]))
+                    vehiculoSeleccionados.add(v);                
+            }
+        }            
+        return vehiculoSeleccionados;
+    }
+    
 }
