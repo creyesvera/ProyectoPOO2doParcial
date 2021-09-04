@@ -7,7 +7,6 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
-import ec.edu.espol.excepciones.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import ec.edu.espol.util.Util;
 import java.io.IOException;

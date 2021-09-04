@@ -7,10 +7,8 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
-import ec.edu.espol.excepciones.ValueTypeException;
-import ec.edu.espol.model.Vehiculo;
+import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
-import static ec.edu.espol.util.Alarmas.alertaInformacion;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,8 +36,6 @@ import javafx.stage.Stage;
  */
 public class RegistrarUsuarioController implements Initializable {
     private ArrayList<Usuario> usuarios;    
-    
-    
     private Usuario usuario;
     @FXML
     private TextField nombox;
@@ -114,7 +110,10 @@ public class RegistrarUsuarioController implements Initializable {
             this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave,tipoU);
             usuarios.add(usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
-            alertaInformacion("USUARIO REGISTRADO","Se ha resgistrado correctamente el usuario");
+            
+            Alert a = new Alert(AlertType.INFORMATION,"Se ha registrado exitosamente");
+            a.show();
+            
         }catch(ValueTypeException e){
             Alert a = new Alert(AlertType.ERROR,e.getMessage());
             a.show();

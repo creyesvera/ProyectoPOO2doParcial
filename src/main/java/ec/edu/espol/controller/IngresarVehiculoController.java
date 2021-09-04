@@ -7,7 +7,7 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
-import ec.edu.espol.excepciones.ValueTypeException;
+import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import ec.edu.espol.util.Alarmas;
@@ -51,7 +51,6 @@ public class IngresarVehiculoController implements Initializable {
     
     private ArrayList<Usuario> usuarios;
     
-    private IngresarVehiculoController ivC;
     private Usuario usuario;
     
     private byte[] byteimage;
@@ -87,8 +86,6 @@ public class IngresarVehiculoController implements Initializable {
     private Text imgbox;
     @FXML
     private Button btimport;
-    @FXML
-    private BorderPane root;
 
     /**
      * Initializes the controller class.
@@ -98,7 +95,6 @@ public class IngresarVehiculoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ivC = this;
         vehiculos = Vehiculo.readFile("vehiculos.ser");
         placabox.clear();
         usuarios = Usuario.readFile("usuarios.ser");
@@ -114,20 +110,16 @@ public class IngresarVehiculoController implements Initializable {
         transmicionbox.clear(); //null si es moto 
         traccionbox.clear(); //null si es moto y carros        
     }    
-    
-    public void recibirParametros(Usuario user){
-        this.usuario = user;
-    }
+   
     
     @FXML
     private void regresar(MouseEvent event) {
-        /*
         if (usuario.getTipo() == TipoUsuario.COMPRADOR)
                 compradorsesion();
             else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
                 vendedorsesion();
             else 
-                ambossesion();*/
+                ambossesion();
     }
 
     @FXML
@@ -214,8 +206,9 @@ public class IngresarVehiculoController implements Initializable {
        
     private String saveImgName(){ 
         String imagen = null;
-        try (FileOutputStream archivosimg = new FileOutputStream(getClass().getResource("/guardadas/"+placabox.getText()+".jpeg").toExternalForm())){
-            //FileOutputStream archivosimg = new FileOutputStream("/guardadas/"+placabox.getText()+".jpg");
+        try{
+            //FileOutputStream archivosimg = new FileOutputStream(getClass().getResource("/guardadas/"+placabox.getText()+".jpeg").toExternalForm())
+            FileOutputStream archivosimg = new FileOutputStream("/guardadas/"+placabox.getText()+".jpg");
             archivosimg.write(byteimage);
             imagen = placabox.getText()+".jpeg";
             
@@ -233,12 +226,11 @@ public class IngresarVehiculoController implements Initializable {
         this.usuario = usuario;
     }
     
-    
      private void cerrarVentana(){
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
     }
-    /*
+    
     private void compradorsesion(){
     try {
             FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
@@ -287,20 +279,13 @@ public class IngresarVehiculoController implements Initializable {
             AmbosController sesion = fxmlloader.getController();
             if (usuario != null)
                 sesion.setUsuario(usuario);
+*/
             cerrarVentana();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
    
-    */
-
-    public BorderPane getRoot() {
-        return root;
-    }
-
-    public void setRoot(BorderPane root) {
-        this.root = root;
-    }
+    
     
 }
