@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.model;
 
+import ec.edu.espol.excepciones.ValueTypeException;
 import ec.edu.espol.util.Util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
