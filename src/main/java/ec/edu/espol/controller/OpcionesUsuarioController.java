@@ -60,6 +60,7 @@ public class OpcionesUsuarioController implements Initializable {
         switch (user.getTipo()) {
             case COMPRADOR:
                 menuVendedor.setVisible(false);
+                
                 break;
             case VENDEDOR:
                 menuComprador.setVisible(false);
@@ -68,9 +69,7 @@ public class OpcionesUsuarioController implements Initializable {
                 menuComprador.setVisible(true);
                 menuVendedor.setVisible(true);            
                 break;
-        }
-            
-            
+        }                        
     }
     
     public void recibirParametros(Usuario u){

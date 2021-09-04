@@ -9,6 +9,7 @@ import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.excepciones.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
+import static ec.edu.espol.util.Alarmas.alertaInformacion;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ import javafx.stage.Stage;
  */
 public class RegistrarUsuarioController implements Initializable {
     private ArrayList<Usuario> usuarios;
+    
     private Usuario usuario;
     @FXML
     private TextField nombox;
@@ -93,25 +95,25 @@ public class RegistrarUsuarioController implements Initializable {
             String correo_elec = emailbox.getText();
             String organizacion = organibox.getText();
             String clave = passwordbox.getText();
-            if(Usuario.searchBycorreoID(correo_elec,usuarios)==-1)
-                throw new ValueTypeException("El usuario ya exciste");
+            if(Usuario.searchBycorreoID(correo_elec,usuarios)!=-1)
+                throw new ValueTypeException("El usuario ya existe");
             
             int id =  Usuario.nextID("usuarios.ser");
-            TipoUsuario tipo;
+            TipoUsuario tipoU;
             if (compradortype.isSelected())
-                tipo = TipoUsuario.COMPRADOR;
+                tipoU = TipoUsuario.COMPRADOR;
             else if (vendedortype.isSelected())
-                tipo = TipoUsuario.VENDEDOR;
+                tipoU = TipoUsuario.VENDEDOR;
             else
-                tipo = TipoUsuario.AMBOS;
+                tipoU = TipoUsuario.AMBOS;
             
-            this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave,tipo);
+            this.usuario = new Usuario(id, nombres, apellidos, correo_elec, organizacion, clave,tipoU);
             usuarios.add(usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
-        
+            alertaInformacion("USIARIO REGISTRADO","Se ha resgistrado correctamente el usuario");
         }catch(ValueTypeException e){
-        Alert a = new Alert(AlertType.ERROR,e.getMessage());
-        a.show();
+            Alert a = new Alert(AlertType.ERROR,e.getMessage());
+            a.show();
         }
     }
 

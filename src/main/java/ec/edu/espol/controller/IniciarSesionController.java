@@ -32,6 +32,7 @@ import javafx.stage.Stage;
  */
 public class IniciarSesionController implements Initializable {
     private ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+    
     private Usuario usuario;
     @FXML
     private Button btregistrar;

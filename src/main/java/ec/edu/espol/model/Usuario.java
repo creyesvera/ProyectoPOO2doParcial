@@ -219,9 +219,7 @@ public class Usuario implements Serializable {
         ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
         for(Oferta o : ofertas_v)
             ofertas.remove(o);
-        Oferta.saveFile(nomfile_ofertas,ofertas);
-
-       
+        Oferta.saveFile(nomfile_ofertas,ofertas);       
         }
     
     public static int nextID(String nomfile){
