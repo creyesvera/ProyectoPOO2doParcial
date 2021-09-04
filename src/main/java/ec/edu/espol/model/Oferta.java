@@ -80,6 +80,10 @@ public class Oferta {
         this.precio = precio;
     }
 
+    @Override
+    public String toString() {
+        return "Oferta{" + "id=" + id + ", comprador=" + comprador + ", id_comprador=" + id_comprador + ", vehiculo=" + vehiculo + ", id_vehiculo=" + id_vehiculo + ", precio=" + precio + '}';
+    }
     
 
     @Override
@@ -152,6 +156,16 @@ public class Oferta {
                 return o;
         }
         return null;
+    }
+    
+    public static int nextID(String nomfile){
+        int id = 0;
+        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile);
+        for(Oferta o: ofertas){
+            if (o.getId()> id)
+                id = o.getId();
+        }
+        return id+1;
     }
     
     

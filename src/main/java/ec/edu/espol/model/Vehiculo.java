@@ -438,5 +438,14 @@ public class Vehiculo {
         return filtro_vehiculos;
     }
     
+    public static int nextID(String nomfile){
+        int id = 0;
+        ArrayList<Vehiculo> vehiculos = Vehiculo.readFile(nomfile);
+        for(Vehiculo v: vehiculos){
+            if (v.getId()> id)
+                id = v.getId();
+        }
+        return id+1;
+    }
     
 }

@@ -136,7 +136,7 @@ public class IngresarVehiculoController implements Initializable {
             }
             
             
-            int id=0 ; 
+            int id = Vehiculo.nextID("vehiculos.ser") ; 
             Usuario vendedor=null;
             int id_vendedor=0;
             

@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  * @author camil
  */
 public class RegistrarUsuarioController implements Initializable {
-    private ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+    private ArrayList<Usuario> usuarios;
     private Usuario usuario;
     @FXML
     private Button btregresar;
@@ -67,6 +67,7 @@ public class RegistrarUsuarioController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        usuarios = Usuario.readFile("usuarios.ser");
         nombox.clear();
         apelbox.clear();
         organibox.clear();
@@ -95,7 +96,7 @@ public class RegistrarUsuarioController implements Initializable {
             String correo_elec = emailbox.getText();
             String organizacion = organibox.getText();
             String clave = passwordbox.getText();
-            int id=0 ;
+            int id =  Usuario.nextID("usuarios.ser");
             TipoUsuario tipo;
             if (compradortype.isSelected())
                 tipo = TipoUsuario.COMPRADOR;

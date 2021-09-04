@@ -202,14 +202,12 @@ public class Usuario implements Serializable {
         return -1;
     }
     
-    public void comprar(Vehiculo v, String nomfile, double precio){ //ofertas.txt
-        if(this.getTipo()!= TipoUsuario.VENDEDOR){
-        int id_oferta = Util.nextID(nomfile);
+    public void comprar(Vehiculo v, String nomfile_ofertas, double precio){ //ofertas.txt
+        int id_oferta = Oferta.nextID(nomfile_ofertas);
         Oferta new_oferta = new Oferta(id_oferta, this.getId(), v.getId(), precio);
-        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile);
+        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
         ofertas.add(new_oferta);
-        Oferta.saveFile(nomfile, ofertas);
-        }
+        Oferta.saveFile(nomfile_ofertas, ofertas);
     }
     
     public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
@@ -224,4 +222,14 @@ public class Usuario implements Serializable {
 
        
         }
+    
+    public static int nextID(String nomfile){
+        int id = 0;
+        ArrayList<Usuario> usuarios = Usuario.readFile(nomfile);
+        for(Usuario u: usuarios){
+            if (u.getId()> id)
+                id = u.getId();
+        }
+        return id+1;
+    }
 }

@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.util;
 
+import ec.edu.espol.model.Vehiculo;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,30 +23,13 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 /**
  *
  * @author camil
  */
 public class Util {
    private Util(){}
-   
-       public static int nextID(String nomfile)
-    {
-        int id = 0;
-        try(Scanner sc = new Scanner(new File(nomfile)))
-        {
-           while(sc.hasNextLine())
-           {
-               String linea = sc.nextLine();
-               String[] tokens = linea.split("\\|");
-               id = Integer.parseInt(tokens[0]);
-           }
-        }
-        catch(Exception e)
-        {
-        }
-        return id+1;
-    }
    
    public boolean enviarCorreo(String cuerpo, String email) {
         String remitente = "";
@@ -126,21 +110,30 @@ public class Util {
     }
     
     public static Boolean validacionCorreo(String correo){
-        /*if (correo.endsWith("@gmail.com")){
+        if (correo.endsWith("@gmail.com")){
             String[] mail= correo.split("\\@");
             if(mail.length == 2){
-                String prt1 = mail[0];
-                if (prt1.charAt(prt1.length()))
                 return true;
             }
-*/
+        }
+/*
         if ((correo.contains("@") && correo.contains("."))){
             String[] correoArroba= correo.split("\\@");
             if(correoArroba.length == 2){
                 return true;
             }
         }
+*/
         return false;
     } //true si el correo esta bien escrito
 
+    //true si la placa existe en la lista de vehiculos
+        public static Boolean validacionPlaca(String placa, ArrayList<Vehiculo> vehiculos){
+        
+        for(Vehiculo vehiculo: vehiculos){
+            if(vehiculo.getPlaca().equals(placa))
+                return true;
+        }
+        return false;
+    }
 }
