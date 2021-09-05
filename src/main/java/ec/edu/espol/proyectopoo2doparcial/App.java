@@ -1,5 +1,6 @@
 package ec.edu.espol.proyectopoo2doparcial;
 
+import ec.edu.espol.model.Usuario;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * JavaFX App
@@ -43,7 +45,9 @@ public class App extends Application {
 
 
     public static void main(String[] args) {
-        launch();
+       ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+        System.out.println(usuarios);
+    launch();
     }
 
 }
