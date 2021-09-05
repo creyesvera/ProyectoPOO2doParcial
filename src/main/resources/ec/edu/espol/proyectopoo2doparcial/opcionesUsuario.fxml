@@ -42,7 +42,7 @@
                       <Menu fx:id="menuVendedor" mnemonicParsing="false" text="Vendedor">
                         <items>
                           <MenuItem fx:id="itemAgregarVehiculo" mnemonicParsing="false" onAction="#agregarVehiculo" text="Agregar nuevo vehiculo" />
-                              <MenuItem fx:id="itemAceptarOferta" mnemonicParsing="false" text="Aceptar oferta" />
+                              <MenuItem fx:id="itemAceptarOferta" mnemonicParsing="false" onAction="#aceptarOferta" text="Aceptar oferta" />
                         </items>
                       </Menu>
                     </menus>
@@ -74,7 +74,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="635.0" spacing="20.0">
                            <children>
-                              <ComboBox prefWidth="150.0" promptText="Tipo de vehiculo" style="-fx-background-color: white; -fx-border-color: black;" />
+                              <ComboBox fx:id="cbTipoVehiculo" prefWidth="150.0" promptText="Tipo de vehiculo" style="-fx-background-color: white; -fx-border-color: black;" />
                               <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                                  <children>
                                     <Label text="Recorrido:">
@@ -82,13 +82,13 @@
                                           <Font name="Times New Roman" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="desde" />
+                                    <TextField fx:id="txtRecorridoI" prefHeight="25.0" prefWidth="58.0" promptText="desde" />
                                     <Label text="-">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
+                                    <TextField fx:id="txtRecorridoF" prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER" layoutX="313.0" layoutY="10.0" prefHeight="100.0" spacing="5.0">
@@ -98,13 +98,13 @@
                                           <Font name="Times New Roman" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="desde" />
+                                    <TextField fx:id="txtAnioI" prefHeight="25.0" prefWidth="58.0" promptText="desde" />
                                     <Label text="-">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
+                                    <TextField fx:id="txtAnioF" prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
                                  </children>
                               </HBox>
                            </children>
@@ -118,23 +118,27 @@
                                           <Font name="Times New Roman" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="desde" />
+                                    <TextField fx:id="txtPrecioI" prefHeight="25.0" prefWidth="58.0" promptText="desde" />
                                     <Label text="-">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <TextField prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
+                                    <TextField fx:id="txtPrecioF" prefHeight="25.0" prefWidth="58.0" promptText="hasta" />
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" text="Buscar" />
+                              <Button fx:id="btnBuscar" mnemonicParsing="false" style="-fx-background-color: black;" text="Buscar" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </top>
                <center>
-                  <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
                      </BorderPane.margin>
