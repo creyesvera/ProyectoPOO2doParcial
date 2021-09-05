@@ -11,6 +11,7 @@ import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import static ec.edu.espol.util.Alarmas.alertaError;
+import ec.edu.espol.util.Util;
 import static ec.edu.espol.util.Util.esDouble;
 import static ec.edu.espol.util.Util.esInteger;
 import java.io.IOException;
@@ -101,7 +102,7 @@ public class OpcionesUsuarioController implements Initializable {
         vehiculos = Vehiculo.readFile("vehiculos.ser");
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
-        this.rootOfertar.setVisible(false);
+        this.rootOfertar.setVisible(false);        
     }    
     
     private void mostrarMenu(){
@@ -124,6 +125,12 @@ public class OpcionesUsuarioController implements Initializable {
         mostrarMenu();
     }
     
+    //VEHICULO
+    private void mostrarVenderVehiculo(){
+        this.rootAceptarOferta.setVisible(true);
+        this.rootMostarOfertados.setVisible(false);
+        this.rootOfertar.setVisible(false);
+    }
     @FXML
     private void agregarVehiculo(){
         FXMLLoader loader; 
@@ -136,32 +143,42 @@ public class OpcionesUsuarioController implements Initializable {
             Stage stage = new Stage();
             stage.setResizable(false);
             stage.setScene(scene);
-            stage.show();                        
+            stage.show();    
+            cerrarVentana();
         } catch (IOException ex) {
             alertaError("Ha ocurrido un error",ex.getMessage());
         }
           }                    
-                
+             
+    
+    //COMPRADOR
     @FXML
     private void hacerOferta(){
         mostrarHacerOfertas();
         //Tipovehiculo, recorrido, año, precio
        
     }
-    
+
     private void mostrarHacerOfertas(){
+        llenarCbBoxTipoVehiculo();
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
         this.rootOfertar.setVisible(true);
     }
     
-    private void mostrarVenderVehiculo(){
-        this.rootAceptarOferta.setVisible(true);
-        this.rootMostarOfertados.setVisible(false);
-        this.rootOfertar.setVisible(false);
+    private void llenarCbBoxTipoVehiculo() {
+        this.cbTipoVehiculo.getItems().addAll(TipoVehiculo.values());
     }
     
-    private boolean validarParametros(List<TextField> txts){
+    
+    private boolean validarParametros(){
+        List<TextField> txts = Arrays.asList(this.txtRecorridoI,this.txtRecorridoF,this.txtAnioI,this.txtAnioF,this.txtPrecioI,this.txtPrecioF);
+        for (int i = 0; i < txts.size(); i++) {
+            if(i%2==0){
+                if(txts.get(i).getText().trim().isEmpty() && !txts.get(i+1).getText().trim().isEmpty())
+                    return false;
+            }
+        }
         for(TextField t: txts){
             if(!t.getText().trim().isEmpty()){
                 if(!esDouble(t.getText().trim()))
@@ -171,15 +188,29 @@ public class OpcionesUsuarioController implements Initializable {
         return !(!esInteger(txts.get(2).getText()) || !esInteger(txts.get(3).getText()));
     }
     
-   private void realizarBusqueda(List<TextField> txts){
-        
-        
-   }   
-    
+    @FXML
+    private void realizarBusqueda(){
+        if(validarParametros()){
+            String recorridos = txtRecorridoI.getText().trim() + "-"+txtRecorridoF.getText().trim();
+            String anio = txtAnioI.getText().trim() +"-"+txtAnioF.getText().trim();
+            String precios = txtPrecioI.getText().trim()+"-"+txtPrecioF.getText().trim();
+            double[] arr_recorridos = Util.validarRangosDouble(recorridos);
+            int[] arr_anios = Util.validarRangosInt(anio);
+            double[] arr_precios =  Util.validarRangosDouble(precios);
+            
+        }else
+            alertaError("PARAMETROS INCORRECTOS","- Solo debe ingresar valores numericos\n- El valor final no puede ser menor que el inicial");
+    }   
+
+    //VENDEDOR
 
     @FXML
     private void aceptarOferta(ActionEvent event) {
         mostrarVenderVehiculo();
     }
     
+    private void cerrarVentana(){
+        Stage myStage = (Stage) this.btnBuscar.getScene().getWindow();
+        myStage.close();
+    }
 }
