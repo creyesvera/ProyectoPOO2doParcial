@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -54,8 +56,7 @@ public class OpcionesUsuarioController implements Initializable {
     private MenuItem itemConfiguracion;
     @FXML
     private MenuItem itemCerrarSesion;
-    
-    
+        
     private OpcionesUsuarioController opC;
     private Usuario user;
     @FXML
@@ -70,6 +71,24 @@ public class OpcionesUsuarioController implements Initializable {
     private BorderPane rootAceptarOferta;
     @FXML
     private BorderPane rootMostarOfertados;
+    @FXML
+    private ComboBox<TipoVehiculo> cbTipoVehiculo;
+    @FXML
+    private TextField txtRecorridoI;
+    @FXML
+    private TextField txtRecorridoF;
+    @FXML
+    private TextField txtAnioI;
+    @FXML
+    private TextField txtAnioF;
+    @FXML
+    private TextField txtPrecioI;
+    @FXML
+    private TextField txtPrecioF;
+    @FXML
+    private Button btnBuscar;
+    @FXML
+    private TableView<Vehiculo> tableView;
     /**
      * Initializes the controller class.
      * @param url
@@ -80,6 +99,9 @@ public class OpcionesUsuarioController implements Initializable {
         // TODO
         opC = this;               
         vehiculos = Vehiculo.readFile("vehiculos.ser");
+        this.rootAceptarOferta.setVisible(false);
+        this.rootMostarOfertados.setVisible(false);
+        this.rootOfertar.setVisible(false);
     }    
     
     private void mostrarMenu(){
@@ -96,7 +118,7 @@ public class OpcionesUsuarioController implements Initializable {
                 break;
         }                        
     } 
-    
+        
     public void recibirParametros(Usuario u){
         user = u;
         mostrarMenu();
@@ -109,7 +131,7 @@ public class OpcionesUsuarioController implements Initializable {
             loader = App.loadFXMLLoader("ingresarVehiculo");
             Parent rootp = loader.load();  
             IngresarVehiculoController opU = loader.getController();            
-            opU.recibirParametros(user);
+            opU.setUsuario(user);
             Scene scene = new Scene(rootp);
             Stage stage = new Stage();
             stage.setResizable(false);
@@ -122,13 +144,21 @@ public class OpcionesUsuarioController implements Initializable {
                 
     @FXML
     private void hacerOferta(){
-        setTopHacerOfertas();
+        mostrarHacerOfertas();
         //Tipovehiculo, recorrido, año, precio
        
     }
     
-    private void setTopHacerOfertas(){
-        
+    private void mostrarHacerOfertas(){
+        this.rootAceptarOferta.setVisible(false);
+        this.rootMostarOfertados.setVisible(false);
+        this.rootOfertar.setVisible(true);
+    }
+    
+    private void mostrarVenderVehiculo(){
+        this.rootAceptarOferta.setVisible(true);
+        this.rootMostarOfertados.setVisible(false);
+        this.rootOfertar.setVisible(false);
     }
     
     private boolean validarParametros(List<TextField> txts){
@@ -141,28 +171,15 @@ public class OpcionesUsuarioController implements Initializable {
         return !(!esInteger(txts.get(2).getText()) || !esInteger(txts.get(3).getText()));
     }
     
-    private void realizarBusqueda(List<TextField> txts){
+   private void realizarBusqueda(List<TextField> txts){
         
-        //ArrayList<Vehiculo>  filtrar = filtrarVehiculos();
-    }
+        
+   }   
     
-    private ArrayList<Vehiculo> filtrarVehiculos(TipoVehiculo tipo, double[] rangoRecorrido,  int[] rangoAno, double[] rangoPrecio){
-        ArrayList<Vehiculo> vehiculoSeleccionados = new ArrayList<>();  
-        if(tipo!=null){
-            for(Vehiculo v: vehiculos){
-                if (v.getTipo().equals(tipo) && v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1]
-                        && v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1] && v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1])
-                    vehiculoSeleccionados.add(v);                
-            }
-        }else{
-            for(Vehiculo v: vehiculos){
-                if ((v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1])
-                        && (v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1]) 
-                        && (v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1]))
-                    vehiculoSeleccionados.add(v);                
-            }
-        }            
-        return vehiculoSeleccionados;
+
+    @FXML
+    private void aceptarOferta(ActionEvent event) {
+        mostrarVenderVehiculo();
     }
     
 }
