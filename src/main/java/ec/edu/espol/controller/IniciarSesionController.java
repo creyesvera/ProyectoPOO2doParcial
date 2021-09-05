@@ -31,7 +31,7 @@ import javafx.stage.Stage;
  * @author camil
  */
 public class IniciarSesionController implements Initializable {
-    private ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
+    private ArrayList<Usuario> usuarios;
     
     private Usuario usuario;
     @FXML
@@ -50,6 +50,7 @@ public class IniciarSesionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        usuarios = Usuario.readFile("usuarios.ser");
         emailbox.clear();
         passwordbox.clear();// TODO
         System.out.println(usuarios);
