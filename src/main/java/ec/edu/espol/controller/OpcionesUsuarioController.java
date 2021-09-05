@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.Oferta;
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.TipoVehiculo;
 import ec.edu.espol.model.Usuario;
@@ -171,7 +172,12 @@ public class OpcionesUsuarioController implements Initializable {
             row.setOnMouseClicked(at->{
                 if(!row.isEmpty() && at.getButton() == MouseButton.PRIMARY && at.getClickCount() == 2){
                     Vehiculo v = row.getItem();
-                    ofertar(v);
+                    Oferta o = new Oferta(0,user,v,0);
+                    Oferta buscar = Oferta.buscarOferta(o);
+                    if(buscar==null)
+                        ofertar(v);
+                    else
+                        alertaError("","Ya ha ofertado por este vehiculo");
                 }
             });
             return row;
@@ -294,9 +300,7 @@ public class OpcionesUsuarioController implements Initializable {
             double[] arr_precios =  Util.validarRangosDouble(precios);
             List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(misNoVehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
             mostrarResultadosBusqueda(vehiculosFiltrados);
-        }catch(ValoresFueraDeRango ex){
-            alertaError("Ha ocurrido un error",ex.getMessage());
-        } catch (ValueTypeException ex) {
+        }catch(ValoresFueraDeRango | ValueTypeException ex){
             alertaError("Ha ocurrido un error",ex.getMessage());
         }
     }   
