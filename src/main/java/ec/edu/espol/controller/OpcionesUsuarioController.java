@@ -32,8 +32,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -155,12 +157,58 @@ public class OpcionesUsuarioController implements Initializable {
     @FXML
     private void hacerOferta(){
         mostrarHacerOfertas();
+        mostrarVehiculosTableView();
         //Tipovehiculo, recorrido, año, precio
        
     }
 
+    private void mostrarVehiculosTableView(){
+        TableColumn<Vehiculo,String> col1 =  new TableColumn<>("Placa");
+        col1.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        
+        TableColumn<Vehiculo,String> col2 =  new TableColumn<>("Marca");
+        col2.setCellValueFactory(new PropertyValueFactory<>("marca"));
+        
+        TableColumn<Vehiculo,String> col3 =  new TableColumn<>("Modelo");
+        col3.setCellValueFactory(new PropertyValueFactory<>("modelo"));
+        
+        TableColumn<Vehiculo,String> col4 =  new TableColumn<>("Tipo de motor");
+        col4.setCellValueFactory(new PropertyValueFactory<>("tipo_motor"));
+        
+        TableColumn<Vehiculo,Integer> col5 =  new TableColumn<>("Año");
+        col5.setCellValueFactory(new PropertyValueFactory<>("year"));
+        
+        TableColumn<Vehiculo,Double> col6 =  new TableColumn<>("Recorrido");
+        col6.setCellValueFactory(new PropertyValueFactory<>("recorrido"));
+        
+        TableColumn<Vehiculo,String> col7 =  new TableColumn<>("Color");
+        col7.setCellValueFactory(new PropertyValueFactory<>("color"));
+        
+        TableColumn<Vehiculo,String> col8 =  new TableColumn<>("Tipo de combustible");
+        col8.setCellValueFactory(new PropertyValueFactory<>("tipo_combustible"));
+        
+        TableColumn<Vehiculo,String> col9 =  new TableColumn<>("Tipo de vidrios");
+        col9.setCellValueFactory(new PropertyValueFactory<>("vidrios"));
+        
+        TableColumn<Vehiculo,String> col10 =  new TableColumn<>("Transmisión");
+        col10.setCellValueFactory(new PropertyValueFactory<>("transmicion"));
+        
+        TableColumn<Vehiculo,String> col11 =  new TableColumn<>("Tracción");
+        col11.setCellValueFactory(new PropertyValueFactory<>("traccion"));
+        
+        TableColumn<Vehiculo,Double> col12 =  new TableColumn<>("Precio");
+        col12.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        
+        tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12);
+        
+        tableView.getItems().clear();
+        System.out.println(vehiculos);
+        tableView.getItems().addAll(vehiculos);
+    }
+    
     private void mostrarHacerOfertas(){
-        llenarCbBoxTipoVehiculo();
+        limpiarRootMostrarOfertas();
+        llenarCbBoxTipoVehiculo();        
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
         this.rootOfertar.setVisible(true);
@@ -168,9 +216,16 @@ public class OpcionesUsuarioController implements Initializable {
     
     private void llenarCbBoxTipoVehiculo() {
         this.cbTipoVehiculo.getItems().addAll(TipoVehiculo.values());
+        this.cbTipoVehiculo.setOnAction(e->realizarBusqueda());
     }
     
-    
+    private void limpiarRootMostrarOfertas(){
+        List<TextField> txts = Arrays.asList(this.txtRecorridoI,this.txtRecorridoF,this.txtAnioI,this.txtAnioF,this.txtPrecioI,this.txtPrecioF);
+        txts.forEach(e->e.clear());
+        this.cbTipoVehiculo.getItems().clear();
+        this.cbTipoVehiculo.setPromptText("Tipo de vehiculo");
+    }
+        
     private boolean validarParametros(){
         List<TextField> txts = Arrays.asList(this.txtRecorridoI,this.txtRecorridoF,this.txtAnioI,this.txtAnioF,this.txtPrecioI,this.txtPrecioF);
         for (int i = 0; i < txts.size(); i++) {
@@ -185,7 +240,11 @@ public class OpcionesUsuarioController implements Initializable {
                     return false;
             }
         }
-        return !(!esInteger(txts.get(2).getText()) || !esInteger(txts.get(3).getText()));
+        if(!txts.get(2).getText().trim().isEmpty() )
+            return esInteger(txts.get(2).getText());
+        if(!txts.get(3).getText().trim().isEmpty())
+            return esInteger(txts.get(3).getText());
+        return true;
     }
     
     @FXML
@@ -195,7 +254,9 @@ public class OpcionesUsuarioController implements Initializable {
             String anio = txtAnioI.getText().trim() +"-"+txtAnioF.getText().trim();
             String precios = txtPrecioI.getText().trim()+"-"+txtPrecioF.getText().trim();
             double[] arr_recorridos = Util.validarRangosDouble(recorridos);
+            System.out.println(Arrays.toString(arr_recorridos));            
             int[] arr_anios = Util.validarRangosInt(anio);
+            System.out.println(Arrays.toString(arr_anios));
             double[] arr_precios =  Util.validarRangosDouble(precios);
             List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(vehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
             mostrarResultadosBusqueda(vehiculosFiltrados);
@@ -204,7 +265,8 @@ public class OpcionesUsuarioController implements Initializable {
     }   
 
    private void mostrarResultadosBusqueda(List<Vehiculo> vehiculosT){
-       
+       tableView.getItems().clear();
+       tableView.getItems().addAll(vehiculosT);
    }
     //VENDEDOR
 
