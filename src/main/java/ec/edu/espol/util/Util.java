@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.util;
 
+import ec.edu.espol.model.ValoresFueraDeRango;
 import ec.edu.espol.model.Vehiculo;
 import static ec.edu.espol.util.Alarmas.alertaError;
 import java.io.FileNotFoundException;
@@ -147,7 +148,7 @@ public class Util {
         }
     }
     
-    public static int[] validarRangosInt(String datos){
+    public static int[] validarRangosInt(String datos) throws ValoresFueraDeRango{
         int [] rangos = new int[2];        
         String [] data = datos.split("-");
        switch (data.length) {
@@ -161,8 +162,7 @@ public class Util {
                break;
            case 2:
                if(Integer.parseInt(data[0].trim())>Integer.parseInt(data[1].trim())){
-                   alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
-                   return null;
+                   throw new ValoresFueraDeRango("El valor inicial no puede ser mayor que el final");
                }else{
                    rangos[0] = Integer.parseInt(data[0].trim());
                    rangos[1] = Integer.parseInt(data[1].trim());
@@ -174,7 +174,7 @@ public class Util {
         return rangos;
     }
     
-    public static double[] validarRangosDouble(String datos){
+    public static double[] validarRangosDouble(String datos) throws ValoresFueraDeRango{
         double [] rangos = new double[2];        
         String [] data = datos.split("-");
        switch (data.length) {
@@ -188,8 +188,7 @@ public class Util {
                return rangos;
            case 2:
                if(Double.parseDouble(data[0].trim())>Double.parseDouble(data[1].trim())){
-                   alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
-                   return null;
+                   throw new ValoresFueraDeRango("El valor inicial no puede ser mayor que el final");
                }else{
                    rangos[0] = Double.parseDouble(data[0].trim());
                    rangos[1] = Double.parseDouble(data[1].trim());
