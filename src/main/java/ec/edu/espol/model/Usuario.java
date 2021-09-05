@@ -129,11 +129,8 @@ public class Usuario implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Usuario other = (Usuario) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+        Usuario other = (Usuario) obj;
+        return this.correo_elec.equalsIgnoreCase(other.correo_elec);
     }
 
     @Override
