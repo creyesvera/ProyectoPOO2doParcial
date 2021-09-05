@@ -1,11 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.proyectopoo2doparcial.DetalleVehiculoController">
-    
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="269.0" prefWidth="443.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controller.DetalleVehiculoController">
+   <center>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </BorderPane.margin>
+         <children>
+            <VBox alignment="CENTER" prefHeight="182.0" prefWidth="203.0" style="-fx-border-color: black;">
+               <children>
+                  <ImageView fx:id="imgVehiculo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </VBox>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+               <center>
+                  <VBox fx:id="vbInfo" prefHeight="200.0" prefWidth="100.0" spacing="10.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin></VBox>
+               </center>
+               <bottom>
+                  <GridPane BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="108.66668701171875" minWidth="10.0" prefWidth="108.66668701171875" />
+                      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="95.33331298828125" minWidth="10.0" prefWidth="91.33331298828125" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="35.333343505859375" minHeight="10.0" prefHeight="35.333343505859375" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="24.666656494140625" minHeight="10.0" prefHeight="24.666656494140625" valignment="CENTER" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Precio Sugerido:  $">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtPrecioSug" editable="false" GridPane.columnIndex="1" />
+                        <Label text="Precio a ofertar:   $" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="txtPrecioOfer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Button fx:id="ofertar" mnemonicParsing="false" onAction="#ofertar" style="-fx-background-color: black; -fx-text-fill: white;" text="Ofertar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font></Button>
+                     </children>
+                  </GridPane>
+               </bottom>
+            </BorderPane>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
