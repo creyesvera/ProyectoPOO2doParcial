@@ -174,6 +174,13 @@ public class Oferta implements Serializable{
         return id+1;
     }
     
-    
+    public static Oferta buscarOferta(Oferta o){
+        ArrayList<Oferta> ofertas = Oferta.readFile("ofertas.ser");
+        for(Oferta of: ofertas){
+            if(of.equals(o))
+                return of;
+            }
+        return null;
+    }
     
 }
