@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.model;
 
+import static ec.edu.espol.model.Oferta.buscarOferta;
 import ec.edu.espol.util.Util;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.application.Platform;
 
 /**
  *
@@ -41,6 +43,11 @@ public class Usuario implements Serializable {
         this.vehiculos = new ArrayList<>();
         this.ofertas = new ArrayList<>();
         this.tipo = tipo;
+    }
+
+    private Usuario() {
+        this.vehiculos = new ArrayList<>();
+        this.ofertas = new ArrayList<>();
     }
 
     public int getId() {
@@ -203,16 +210,25 @@ public class Usuario implements Serializable {
         return -1;
     }
     
-    public void comprar(Vehiculo v, String nomfile_ofertas, double precio, ArrayList<Usuario> usuarios){ //ofertas.txt
-        int id_oferta = Oferta.nextID(nomfile_ofertas);
-        Oferta new_oferta = new Oferta(id_oferta, this,v, precio);        
+    public void comprar(Vehiculo v, String nomfile_ofertas, double precio, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos){ //ofertas.txt        
         ArrayList<Oferta> arr_ofertas = Oferta.readFile(nomfile_ofertas);
-        arr_ofertas.add(new_oferta);
+        int id_oferta = Oferta.nextID(nomfile_ofertas);        
+        Oferta new_oferta = new Oferta(id_oferta, this,v, precio);                
+        try{  
+            Usuario u = new Usuario(id,  nombres,  apellidos,  correo_elec,  organizacion,  clave,  tipo);            
+            arr_ofertas.add(new_oferta); 
+            this.ofertas.add(new_oferta);
+            int i = usuarios.indexOf(this);                                
+            usuarios.get(i).getOfertas().add(new Oferta(id_oferta, u,v, precio));                
+            v.getOfertas().add(new_oferta);                        
+            int iV = vehiculos.indexOf(v);
+            vehiculos.set(iV,v);
+        }catch(ValueTypeException ex){
+                System.out.println(ex.getMessage());
+            }
         Oferta.saveFile(nomfile_ofertas, arr_ofertas);
-        this.ofertas.add(new_oferta);
-        int i = usuarios.indexOf(this);
-        usuarios.set(i, this);
-        saveFile("usuarios.ser", usuarios);
+        Vehiculo.saveFile("vehiculos.ser", vehiculos);                
+        Usuario.saveFile("usuarios.ser", usuarios);
     }
     
     public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
