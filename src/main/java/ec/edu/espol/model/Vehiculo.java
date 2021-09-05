@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -460,5 +461,25 @@ public class Vehiculo {
         }
         return id+1;
     }
+    
+    private ArrayList<Vehiculo> filtrarVehiculos(List<Vehiculo> vehiculos,TipoVehiculo tipo, double[] rangoRecorrido,  int[] rangoAno, double[] rangoPrecio){
+        ArrayList<Vehiculo> vehiculoSeleccionados = new ArrayList<>();  
+        if(tipo!=null){
+            for(Vehiculo v: vehiculos){
+                if (v.getTipo().equals(tipo) && v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1]
+                        && v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1] && v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1])
+                    vehiculoSeleccionados.add(v);                
+            }
+        }else{
+            for(Vehiculo v: vehiculos){
+                if ((v.getRecorrido()>=rangoRecorrido[0] && v.getRecorrido()<=rangoRecorrido[1])
+                        && (v.getYear()>=rangoAno[0] && v.getYear()<=rangoAno[1]) 
+                        && (v.getPrecio()>=rangoPrecio[0] && v.getPrecio()<=rangoPrecio[1]))
+                    vehiculoSeleccionados.add(v);                
+            }
+        }            
+        return vehiculoSeleccionados;
+    }
+    
     
 }
