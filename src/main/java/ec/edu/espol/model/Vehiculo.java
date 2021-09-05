@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import java.util.List;
  *
  * @author camil
  */
-public class Vehiculo {
+public class Vehiculo implements Serializable{
     private int id;
     private String placa;       //validar que sea unica
     private String marca;
@@ -37,6 +38,7 @@ public class Vehiculo {
     private int id_vendedor;  
     private String imagen;
     private TipoVehiculo tipo;
+    private static final long serialVersionUID = 84568698545269L;
     
     //constructor de carros, no tiene traccion
     public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, String vidrios, String transmicion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
@@ -48,6 +50,7 @@ public class Vehiculo {
         this.color = color;
         this.tipo_combustible = tipo_combustible;
         this.transmicion = transmicion;
+        this.vidrios = vidrios;
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;

@@ -5,11 +5,13 @@
  */
 package ec.edu.espol.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author camil
  */
-public enum TipoVehiculo {
+public enum TipoVehiculo implements Serializable{
 
     /**
      *
