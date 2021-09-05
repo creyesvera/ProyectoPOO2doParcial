@@ -124,8 +124,7 @@ public class Vehiculo {
             this.precio = precio;
         }
         else
-            throw new ValueTypeException("NO SE CUMPLE year>1495 && recorrido>=0 && vidrios>=0 && precio>=0");
-        
+            throw new ValueTypeException("NO SE CUMPLE year>1495 && recorrido>=0 && vidrios>=0 && precio>=0");        
     }
 
     public int getId() {
