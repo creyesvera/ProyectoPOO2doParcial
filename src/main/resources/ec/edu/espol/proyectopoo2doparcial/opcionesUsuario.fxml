@@ -68,7 +68,7 @@
             <Insets bottom="10.0" left="15.0" right="15.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <BorderPane fx:id="rootOfertar" prefHeight="322.0" prefWidth="635.0">
+            <BorderPane fx:id="rootOfertar" prefHeight="322.0" prefWidth="635.0" visible="false">
                <top>
                   <VBox alignment="TOP_CENTER" prefHeight="36.0" prefWidth="635.0" spacing="10.0" BorderPane.alignment="CENTER_LEFT">
                      <children>
@@ -145,8 +145,23 @@
                   </TableView>
                </center>
             </BorderPane>
-            <BorderPane fx:id="rootAceptarOferta" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: red;" visible="false" />
-            <BorderPane fx:id="rootMostarOfertados" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: blue;" visible="false" />
+            <BorderPane fx:id="rootAceptarOferta" prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <HBox alignment="CENTER" prefHeight="43.0" prefWidth="769.0" spacing="10.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Placa: ">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtPlaca" />
+                        <Button mnemonicParsing="false" onAction="#buscarOfertas" style="-fx-background-color: black;" text="Buscar" textFill="#fdfdfd" />
+                     </children>
+                  </HBox>
+               </top>
+               <center>
+                  <TableView fx:id="tableViewOfertas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+               </center></BorderPane>
          </children>
       </StackPane>
    </center>
