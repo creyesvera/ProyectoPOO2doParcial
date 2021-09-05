@@ -5,6 +5,7 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.Oferta;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.Vehiculo;
 import static ec.edu.espol.util.Alarmas.alertaError;
@@ -45,6 +46,7 @@ public class DetalleVehiculoController implements Initializable {
     private Usuario user;
     private Vehiculo vehiculo;
     private ArrayList<Usuario> usuarios;
+    private ArrayList<Vehiculo> vehiculos;
     
     @FXML
     private Label lblMarca;
@@ -67,6 +69,7 @@ public class DetalleVehiculoController implements Initializable {
         // TODO
         dtC = this;
         usuarios = Usuario.readFile("usuarios.ser");
+        vehiculos = Vehiculo.readFile("vehiculos.ser");
     }    
 
     private void mostrarDatos(){
@@ -83,8 +86,8 @@ public class DetalleVehiculoController implements Initializable {
     @FXML
     private void ofertar(ActionEvent event) {
         if(validarCampos()){
-            user.comprar(vehiculo, "ofertas.ser", Double.parseDouble(txtPrecioOfer.getText()), usuarios); 
-            alertaInformacion("OFERTA REALIZADA","Se ha agregado una nueva oferta para el vehículo");
+            user.comprar(vehiculo, "ofertas.ser", Double.parseDouble(txtPrecioOfer.getText()), usuarios,vehiculos); 
+            alertaInformacion("OFERTA REALIZADA","Se ha agregado una nueva oferta para el vehículo");            
             cerrarVentana();
         }else
             alertaError("Ha ocurrido un problema","Debe escribir un precio para ofertar");        
