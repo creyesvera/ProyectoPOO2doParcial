@@ -191,11 +191,15 @@ public class IngresarVehiculoController implements Initializable {
                 v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, traccion, precio, usuario, id_vendedor, imagen);
             
             }
-            
+            int i = usuarios.indexOf(usuario);            
             usuario.getVehiculos().add(v);
+            usuarios.set(i, usuario);
             Usuario.saveFile("usuarios.ser", usuarios);
+            
             vehiculos.add(v);
             Vehiculo.saveFile("vehiculos.ser", vehiculos);
+            
+            
            
             Alert ok = new Alert(Alert.AlertType.CONFIRMATION,"El vehículo se a registrado con éxito");
             ok.show();
