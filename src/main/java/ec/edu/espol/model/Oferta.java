@@ -26,10 +26,10 @@ public class Oferta implements Serializable{
     private int id_vehiculo;
     private double precio;
     private static final long serialVersionUID = 8456845898545269L;
-    public Oferta(int id, int id_comprador, int id_vehiculo, double precio) {
+    public Oferta(int id, Usuario comprador, Vehiculo vehiculo, double precio) {
         this.id = id;
-        this.id_comprador = id_comprador;
-        this.id_vehiculo = id_vehiculo;
+        this.comprador = comprador;
+        this.vehiculo = vehiculo;
         this.precio = precio;
     }
 
@@ -123,12 +123,9 @@ public class Oferta implements Serializable{
             FileInputStream file = new FileInputStream(nomfile);
             ObjectInputStream object = new ObjectInputStream(file);
             ofertas = (ArrayList<Oferta>) object.readObject();
+        }catch(FileNotFoundException e){
         }
-        catch(ClassNotFoundException e){
-        }
-        catch(FileNotFoundException e){
-        }
-        catch(IOException e){
+        catch(ClassNotFoundException | IOException e){
         }
         return ofertas;
         
