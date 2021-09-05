@@ -11,6 +11,7 @@ import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import ec.edu.espol.util.Alarmas;
+import static ec.edu.espol.util.Alarmas.alertaError;
 import ec.edu.espol.util.Util;
 import java.io.File;
 import java.io.FileInputStream;
@@ -149,8 +150,9 @@ public class IngresarVehiculoController implements Initializable {
     private void ingresar(MouseEvent event) {        
         try{
             String placa = placabox.getText();
-            String imagen = null;
-            if (placa== null || Util.validacionPlaca(placa,vehiculos)){
+            if(!Util.validacionPlaca(placa,vehiculos)){
+                String imagen = null;
+            if (placa== null){
                 Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese otro numero de placa");
                 a.show();
             }
@@ -197,7 +199,9 @@ public class IngresarVehiculoController implements Initializable {
            
             Alert ok = new Alert(Alert.AlertType.CONFIRMATION,"El vehículo se a registrado con éxito");
             ok.show();
-            
+            }else{
+                alertaError("","Por favor ingrese otro numero de placa");
+            }
         }catch(NumberFormatException e){
             Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese valores numericos");
             a.show();
