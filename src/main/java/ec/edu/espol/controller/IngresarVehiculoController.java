@@ -132,9 +132,9 @@ public class IngresarVehiculoController implements Initializable {
     @FXML
     private void regresar(MouseEvent event) {
         try{
-        FXMLLoader fxmlloader = App.loadFXMLLoader("opcionesUsuario");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
+            FXMLLoader fxmlloader = App.loadFXMLLoader("opcionesUsuario");
+            Parent root_ = fxmlloader.load();
+            Scene scene = new Scene(root_);
             Stage stage = new Stage();
             OpcionesUsuarioController ouc = fxmlloader.getController();
             ouc.recibirParametros(usuario);
@@ -143,6 +143,7 @@ public class IngresarVehiculoController implements Initializable {
             stage.show();
             cerrarVentana();
         } catch (IOException ex) {
+            
         }
     }
 
