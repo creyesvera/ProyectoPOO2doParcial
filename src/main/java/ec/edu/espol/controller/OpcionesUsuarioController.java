@@ -54,8 +54,7 @@ public class OpcionesUsuarioController implements Initializable {
     private MenuItem itemConfiguracion;
     @FXML
     private MenuItem itemCerrarSesion;
-    @FXML
-    private BorderPane root;
+    
     
     private OpcionesUsuarioController opC;
     private Usuario user;
@@ -65,6 +64,12 @@ public class OpcionesUsuarioController implements Initializable {
     private Menu menuVendedor;
     @FXML
     private Menu menuCuenta;
+    @FXML
+    private BorderPane rootOfertar;
+    @FXML
+    private BorderPane rootAceptarOferta;
+    @FXML
+    private BorderPane rootMostarOfertados;
     /**
      * Initializes the controller class.
      * @param url
@@ -90,16 +95,7 @@ public class OpcionesUsuarioController implements Initializable {
                 menuVendedor.setVisible(true);            
                 break;
         }                        
-    }
-
-    public BorderPane getRoot() {
-        return root;
-    }
-
-    public void setRoot(BorderPane root) {
-        this.root = root;
-    }
-        
+    } 
     
     public void recibirParametros(Usuario u){
         user = u;
@@ -108,7 +104,6 @@ public class OpcionesUsuarioController implements Initializable {
     
     @FXML
     private void agregarVehiculo(){
-        root.getChildren().clear();
         FXMLLoader loader; 
         try {
             loader = App.loadFXMLLoader("ingresarVehiculo");
@@ -127,40 +122,13 @@ public class OpcionesUsuarioController implements Initializable {
                 
     @FXML
     private void hacerOferta(){
-        root.getChildren().clear();
         setTopHacerOfertas();
         //Tipovehiculo, recorrido, año, precio
        
     }
     
     private void setTopHacerOfertas(){
-        ComboBox cbTipo = new ComboBox();
-        cbTipo.getItems().add(TipoVehiculo.AUTOS);
-        cbTipo.getItems().add(TipoVehiculo.CAMIONETAS);
-        cbTipo.getItems().add(TipoVehiculo.MOTOCICLETAS);
         
-        TextField txtRecorridoInicio = new TextField();
-        TextField txtRecorridoFin = new TextField();
-        
-        TextField anioInicio = new TextField();
-        TextField anioFin = new TextField();
-        
-        TextField txtPrecioInicio = new TextField();
-        TextField txtPrecioFin = new TextField();
-        
-        Button buscar = new Button("Buscar");
-        List<TextField> txts = Arrays.asList(txtRecorridoInicio,txtRecorridoFin,anioInicio,anioFin,txtPrecioInicio,txtPrecioFin);
-        txts.forEach(e->e.setPrefWidth(80));
-        
-        VBox vbTop = new VBox(10);
-        HBox hbParametros = new HBox(10);
-        hbParametros.getChildren().addAll(new Label("Tipo de vehículo: "),cbTipo,new Label("Recorrido: "),txtRecorridoInicio,new Label("-"),txtRecorridoFin);        
-        
-        HBox hbPara = new HBox(10);
-        hbPara.getChildren().addAll(new Label("Año: "),anioInicio,new Label("-"),anioFin,new Label("Precio: $"),txtPrecioInicio,new Label("- $"),txtPrecioFin,buscar);
-        
-        vbTop.getChildren().addAll(hbParametros,hbPara);
-        root.setTop(vbTop);
     }
     
     private boolean validarParametros(List<TextField> txts){
