@@ -462,7 +462,7 @@ public class Vehiculo {
         return id+1;
     }
     
-    private ArrayList<Vehiculo> filtrarVehiculos(List<Vehiculo> vehiculos,TipoVehiculo tipo, double[] rangoRecorrido,  int[] rangoAno, double[] rangoPrecio){
+    public static ArrayList<Vehiculo> filtrarVehiculos(List<Vehiculo> vehiculos,TipoVehiculo tipo, double[] rangoRecorrido,  int[] rangoAno, double[] rangoPrecio){
         ArrayList<Vehiculo> vehiculoSeleccionados = new ArrayList<>();  
         if(tipo!=null){
             for(Vehiculo v: vehiculos){
