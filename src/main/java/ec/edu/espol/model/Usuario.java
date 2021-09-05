@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -130,7 +131,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) obj;
-        return this.correo_elec.equalsIgnoreCase(other.correo_elec);
+        return this.id == id;
     }
 
     @Override
@@ -156,13 +157,11 @@ public class Usuario implements Serializable {
             FileInputStream file = new FileInputStream(nomfile);
             ObjectInputStream object = new ObjectInputStream(file);
             usuarios = (ArrayList<Usuario>) object.readObject();
+        }catch(FileNotFoundException e){
         }
-        catch(ClassNotFoundException e){
+        catch(ClassNotFoundException | IOException e){
         }
-        catch(FileNotFoundException e){
-        }
-        catch(IOException e){
-        }
+    
         return usuarios;
         
     }    
@@ -199,12 +198,14 @@ public class Usuario implements Serializable {
         return -1;
     }
     
-    public void comprar(Vehiculo v, String nomfile_ofertas, double precio){ //ofertas.txt
+    public void comprar(Vehiculo v, String nomfile_ofertas, double precio, ArrayList<Usuario> usuarios){ //ofertas.txt
         int id_oferta = Oferta.nextID(nomfile_ofertas);
-        Oferta new_oferta = new Oferta(id_oferta, this.getId(), v.getId(), precio);
-        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
-        ofertas.add(new_oferta);
-        Oferta.saveFile(nomfile_ofertas, ofertas);
+        Oferta new_oferta = new Oferta(id_oferta, this,v, precio);        
+        ArrayList<Oferta> arr_ofertas = Oferta.readFile(nomfile_ofertas);
+        arr_ofertas.add(new_oferta);
+        Oferta.saveFile(nomfile_ofertas, arr_ofertas);
+        this.ofertas.add(new_oferta);
+        Usuario.saveFile("usuarios.ser", usuarios);
     }
     
     public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
