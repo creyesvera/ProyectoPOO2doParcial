@@ -111,7 +111,7 @@ public class IngresarVehiculoController implements Initializable {
         vidriosbox.clear(); //null si es moto 
         transmicionbox.clear(); //null si es moto 
         traccionbox.clear(); //null si es moto y carros   
-        byteimage = null;
+        byteimage = new byte[0];
     }    
    
     
@@ -207,7 +207,9 @@ public class IngresarVehiculoController implements Initializable {
        
     private String saveImgName(String placa) throws IOException{
             //FileOutputStream archivosimg = new FileOutputStream(getClass().getResource("/guardadas/"+placabox.getText()+".jpeg").toExternalForm())
-            FileOutputStream archivosimg = new FileOutputStream("/guardadas/"+placa+".jpg");
+            FileOutputStream archivosimg = new FileOutputStream("ec/edu/espol/imagenes_vehiculos/"+placa+".jpg");
+            if  (byteimage.length == 0)
+                throw new IOException();
             archivosimg.write(byteimage);
             String imagen = placa+".jpeg";
             
