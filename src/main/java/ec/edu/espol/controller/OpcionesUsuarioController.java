@@ -80,7 +80,6 @@ public class OpcionesUsuarioController implements Initializable {
     private BorderPane rootOfertar;
     @FXML
     private BorderPane rootAceptarOferta;
-    @FXML
     private BorderPane rootMostarOfertados;
     @FXML
     private ComboBox<TipoVehiculo> cbTipoVehiculo;
@@ -100,6 +99,10 @@ public class OpcionesUsuarioController implements Initializable {
     private Button btnBuscar;
     @FXML
     private TableView<Vehiculo> tableView;
+    @FXML
+    private TextField txtPlaca;
+    @FXML
+    private TableView<Oferta> tableViewOfertas;
     /**
      * Initializes the controller class.
      * @param url
@@ -316,9 +319,29 @@ public class OpcionesUsuarioController implements Initializable {
         mostrarVenderVehiculo();
     }
     
+    private void llenarTableViewOfertas(List<Oferta> ofertas){
+        TableColumn<Oferta,String> col1 =  new TableColumn<>("Placa");
+        col1.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        
+        TableColumn<Oferta,String> col2 =  new TableColumn<>("Comprador");
+        col2.setCellValueFactory(new PropertyValueFactory<>("comprador"));
+        
+        TableColumn<Oferta,Double> col3 =  new TableColumn<>("Precio ofertado");
+        col3.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        
+        tableViewOfertas.getColumns().addAll(col1, col2, col3);
+        
+        tableViewOfertas.getItems().clear();
+        tableViewOfertas.getItems().addAll(ofertas);
+    }
+    
     private void cerrarVentana(){
         Stage myStage = (Stage) this.btnBuscar.getScene().getWindow();
         myStage.close();
+    }
+
+    @FXML
+    private void buscarOfertas(ActionEvent event) {
     }
     
 }
