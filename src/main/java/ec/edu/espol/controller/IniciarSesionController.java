@@ -76,7 +76,7 @@ public class IniciarSesionController implements Initializable {
         String email = emailbox.getText();
         String password = passwordbox.getText();
         this.setUsuario(Usuario.searchByCorreoYClave(usuarios, email, password)); //dentro de searchByCorreoYClave la clave se convierte a hash y se compara con las otras claves de la lista (las cuales ya estan en hash)
-        if(getUsuario()!= null){            
+        if(usuario!= null){            
             try{
                 FXMLLoader loader = App.loadFXMLLoader("opcionesUsuario"); 
                 Parent root = loader.load();                
@@ -89,6 +89,7 @@ public class IniciarSesionController implements Initializable {
                 stage.show();
                 cerrarVentana();
             } catch (IOException ex) {
+                ex.printStackTrace();
                 alertaError("Ha ocurrido un error",ex.getMessage());
             }
         }
