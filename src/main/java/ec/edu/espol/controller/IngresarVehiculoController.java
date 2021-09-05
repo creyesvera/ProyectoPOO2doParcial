@@ -117,7 +117,20 @@ public class IngresarVehiculoController implements Initializable {
     
     @FXML
     private void regresar(MouseEvent event) {
-        
+        try{
+        FXMLLoader fxmlloader = App.loadFXMLLoader("opcionesUsuario");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            OpcionesUsuarioController ouc = fxmlloader.getController();
+            ouc.recibirParametros(usuario);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -198,9 +211,7 @@ public class IngresarVehiculoController implements Initializable {
                 FileInputStream img = new FileInputStream(selectedfile);
                 img.read(byteimage);
                     } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
             } catch (IOException ex) {
-                ex.printStackTrace();
         }
         }
     }
@@ -228,58 +239,5 @@ public class IngresarVehiculoController implements Initializable {
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
     }
-    /*
-    private void compradorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            
-            OpcionesUsuarioController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.recibirParametros(usuario);///Comprador Controller debe tener atributo vendedor
-            
-            cerrarVentana();
-        } catch (IOException ex) {
-            Alarmas.alertaError("ERROR", ex.getMessage());
-        }
-    }
-    
-    private void vendedorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("vendedor");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            cerrarVentana();
-        } catch (IOException ex) {
-        }
-    }
-    
-    private void ambossesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("ambos");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            
-            AmbosController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-
-            cerrarVentana();
-        } catch (IOException ex) {
-        }
-    }
-    */  
+   
 }
