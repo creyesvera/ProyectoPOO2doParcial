@@ -9,6 +9,7 @@ import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.TipoVehiculo;
 import ec.edu.espol.model.Usuario;
 import ec.edu.espol.model.Vehiculo;
+import static ec.edu.espol.model.Vehiculo.separarVehiculosDeUsuario;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import static ec.edu.espol.util.Alarmas.alertaError;
 import ec.edu.espol.util.Util;
@@ -47,6 +48,8 @@ import javafx.stage.Stage;
  */
 public class OpcionesUsuarioController implements Initializable {
     private ArrayList<Vehiculo> vehiculos;
+    private List<Vehiculo> misNoVehiculos;
+    
     @FXML
     private MenuItem itemOfertar;
     @FXML
@@ -100,8 +103,8 @@ public class OpcionesUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        opC = this;               
-        vehiculos = Vehiculo.readFile("vehiculos.ser");
+        opC = this;                       
+        vehiculos = Vehiculo.readFile("vehiculos.ser");        
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
         this.rootOfertar.setVisible(false);        
@@ -124,6 +127,7 @@ public class OpcionesUsuarioController implements Initializable {
         
     public void recibirParametros(Usuario u){
         user = u;
+        misNoVehiculos = separarVehiculosDeUsuario(user,vehiculos);
         mostrarMenu();
     }
     
@@ -202,8 +206,7 @@ public class OpcionesUsuarioController implements Initializable {
         tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12);
         
         tableView.getItems().clear();
-        System.out.println(vehiculos);
-        tableView.getItems().addAll(vehiculos);
+        tableView.getItems().addAll(misNoVehiculos);
     }
     
     private void mostrarHacerOfertas(){
@@ -215,7 +218,8 @@ public class OpcionesUsuarioController implements Initializable {
     }
     
     private void llenarCbBoxTipoVehiculo() {
-        this.cbTipoVehiculo.getItems().addAll(TipoVehiculo.values());
+        this.cbTipoVehiculo.setPromptText("Tipo de vehiculo");
+        this.cbTipoVehiculo.getItems().addAll(TipoVehiculo.values());        
         this.cbTipoVehiculo.setOnAction(e->realizarBusqueda());
     }
     
@@ -223,7 +227,6 @@ public class OpcionesUsuarioController implements Initializable {
         List<TextField> txts = Arrays.asList(this.txtRecorridoI,this.txtRecorridoF,this.txtAnioI,this.txtAnioF,this.txtPrecioI,this.txtPrecioF);
         txts.forEach(e->e.clear());
         this.cbTipoVehiculo.getItems().clear();
-        this.cbTipoVehiculo.setPromptText("Tipo de vehiculo");
     }
         
     private boolean validarParametros(){
@@ -253,12 +256,10 @@ public class OpcionesUsuarioController implements Initializable {
             String recorridos = txtRecorridoI.getText().trim() + "-"+txtRecorridoF.getText().trim();
             String anio = txtAnioI.getText().trim() +"-"+txtAnioF.getText().trim();
             String precios = txtPrecioI.getText().trim()+"-"+txtPrecioF.getText().trim();
-            double[] arr_recorridos = Util.validarRangosDouble(recorridos);
-            System.out.println(Arrays.toString(arr_recorridos));            
+            double[] arr_recorridos = Util.validarRangosDouble(recorridos);        
             int[] arr_anios = Util.validarRangosInt(anio);
-            System.out.println(Arrays.toString(arr_anios));
             double[] arr_precios =  Util.validarRangosDouble(precios);
-            List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(vehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
+            List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(misNoVehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
             mostrarResultadosBusqueda(vehiculosFiltrados);
         }else
             alertaError("PARAMETROS INCORRECTOS","- Solo debe ingresar valores numericos\n- El valor final no puede ser menor que el inicial");
