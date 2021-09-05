@@ -129,7 +129,6 @@ public class IngresarVehiculoController implements Initializable {
             stage.show();
             cerrarVentana();
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -222,7 +221,7 @@ public class IngresarVehiculoController implements Initializable {
             if  (byteimage.length == 0)
                 throw new IOException();
             archivosimg.write(byteimage);
-            String imagen = placa+".jpeg";
+            String imagen = placa+".jpg";
             
             return imagen;
     }
