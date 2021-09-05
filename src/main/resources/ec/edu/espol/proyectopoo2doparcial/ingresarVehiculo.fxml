@@ -106,16 +106,16 @@
             <TextField fx:id="traccionbox" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <TextField fx:id="preciobox" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Text fx:id="imgbox" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar imágen de menos de 1MB" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            <Button fx:id="btimport" mnemonicParsing="false" onMouseClicked="#importar" style="-fx-background-radius: 12px; -fx-background-color: #595959;" text="Importar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="14">
+            <Button fx:id="btimport" mnemonicParsing="false" onMouseClicked="#importar" style="-fx-background-radius: 12px; -fx-background-color: #595959;" text="Importar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo: " GridPane.rowIndex="13">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo: " GridPane.rowIndex="14">
                <font>
                   <Font name="Times New Roman Bold" size="14.0" />
                </font>
             </Text>
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="14">
                <children>
                   <RadioButton fx:id="btauto" mnemonicParsing="false" onMouseClicked="#autoSelected" text="Auto">
                      <padding>
