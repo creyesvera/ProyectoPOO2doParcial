@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Oferta implements Serializable{
     private int id_vehiculo;
     private double precio;
     private static final long serialVersionUID = 8456845898545269L;
+    
     public Oferta(int id, Usuario comprador, Vehiculo vehiculo, double precio) {
         this.id = id;
         this.comprador = comprador;
@@ -85,8 +87,8 @@ public class Oferta implements Serializable{
     public String toString() {
         return "Oferta{" + "id=" + id + ", comprador=" + comprador + ", id_comprador=" + id_comprador + ", vehiculo=" + vehiculo + ", id_vehiculo=" + id_vehiculo + ", precio=" + precio + '}';
     }
-    
 
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -99,11 +101,17 @@ public class Oferta implements Serializable{
             return false;
         }
         final Oferta other = (Oferta) obj;
-        if (this.id != other.id) {
+        if (!Objects.equals(this.comprador, other.comprador)) {
+            return false;
+        }
+        if (!Objects.equals(this.vehiculo, other.vehiculo)) {
             return false;
         }
         return true;
     }
+
+   
+
     
     public static void saveFile(String nomfile, ArrayList<Oferta> ofertas){
         try
