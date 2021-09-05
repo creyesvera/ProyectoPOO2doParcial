@@ -218,7 +218,7 @@ public class IngresarVehiculoController implements Initializable {
         File selectedfile = fc.showOpenDialog(null);
         if (selectedfile != null){
             try {                
-                byteimage = new byte[1024*1000];//100M bytes
+                byteimage = new byte[1024*2000];//2M bytes
                 imgbox.setText(selectedfile.getName());
                 FileInputStream img = new FileInputStream(selectedfile);
                 img.read(byteimage);
