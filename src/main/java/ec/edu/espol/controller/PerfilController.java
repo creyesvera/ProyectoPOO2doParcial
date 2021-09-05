@@ -7,6 +7,7 @@ package ec.edu.espol.controller;
 
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.proyectopoo2doparcial.App;
 import ec.edu.espol.util.Util;
 import java.io.IOException;
@@ -74,9 +75,9 @@ public class PerfilController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*try {
+        try {
             usuario = new Usuario(5,"s","s","camila@gmail.com","s","s",TipoUsuario.COMPRADOR); //usuario de prueba
-        */
+        
         nombres.setText(usuario.getNombres());
         apellidos.setText(usuario.getApellidos());
         organizacion.setText(usuario.getOrganizacion());
@@ -94,22 +95,30 @@ public class PerfilController implements Initializable {
         gridpane.getChildren().remove(passwordbox);
         gridpane.getChildren().remove(btcancelar);
     
-        /*    
+          
         } catch (ValueTypeException ex) {
             Alert a = new Alert(Alert.AlertType.ERROR,"Usuario de prueba");
                 a.show();
-        }*/
+        }
         
     }    
 
     @FXML
     private void regresar(MouseEvent event) {
-        if (usuario.getTipo() == TipoUsuario.COMPRADOR)
-                compradorsesion();
-            else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
-                vendedorsesion();
-            else 
-                ambossesion();
+        try{
+            FXMLLoader fxmlloader = App.loadFXMLLoader("opcionesUsuario");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            OpcionesUsuarioController ouc = fxmlloader.getController();
+            ouc.recibirParametros(usuario);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
@@ -160,66 +169,5 @@ public class PerfilController implements Initializable {
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
     }
-    
-    private void compradorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            
-            /*CompradorController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);///Comprador Controller debe tener atributo vendedor
-            */
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private void vendedorsesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("vendedor");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            /*
-            VendedorController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-            */
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private void ambossesion(){
-    try {
-            FXMLLoader fxmlloader = App.loadFXMLLoader("ambos");
-            Parent root = fxmlloader.load();
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setScene(scene);
-            stage.show();
-            /*
-            AmbosController sesion = fxmlloader.getController();
-            if (usuario != null)
-                sesion.setUsuario(usuario);
-            */
-            cerrarVentana();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
-
     
 }
