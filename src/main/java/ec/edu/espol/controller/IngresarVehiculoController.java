@@ -207,7 +207,7 @@ public class IngresarVehiculoController implements Initializable {
        
     private String saveImgName(String placa) throws IOException{
             //FileOutputStream archivosimg = new FileOutputStream(getClass().getResource("/guardadas/"+placabox.getText()+".jpeg").toExternalForm())
-            FileOutputStream archivosimg = new FileOutputStream("ec/edu/espol/imagenes_vehiculos/"+placa+".jpg");
+            FileOutputStream archivosimg = new FileOutputStream("src/main/resources/ec/edu/espol/imagenes_vehiculos/"+placa+".jpg");
             if  (byteimage.length == 0)
                 throw new IOException();
             archivosimg.write(byteimage);
