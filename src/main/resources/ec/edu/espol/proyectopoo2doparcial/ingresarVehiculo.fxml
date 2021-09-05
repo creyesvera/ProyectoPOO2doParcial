@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -16,7 +18,7 @@
 
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="558.0" prefWidth="383.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ec.edu.espol.controller.IngresarVehiculoController">
    <center>
-      <GridPane vgap="5.0" BorderPane.alignment="CENTER">
+      <GridPane fx:id="gridPane" vgap="5.0" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.66668701171875" minWidth="10.0" prefWidth="132.66668701171875" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="203.33331298828125" />
@@ -27,6 +29,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -103,10 +106,37 @@
             <TextField fx:id="traccionbox" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <TextField fx:id="preciobox" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <Text fx:id="imgbox" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar imágen de menos de 1MB" GridPane.columnIndex="1" GridPane.rowIndex="12" />
-            <Button fx:id="btimport" mnemonicParsing="false" onMouseClicked="#importar" style="-fx-background-radius: 12px; -fx-background-color: #595959;" text="Importar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
+            <Button fx:id="btimport" mnemonicParsing="false" onMouseClicked="#importar" style="-fx-background-radius: 12px; -fx-background-color: #595959;" text="Importar" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="14">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Button>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo: " GridPane.rowIndex="13">
+               <font>
+                  <Font name="Times New Roman Bold" size="14.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="13">
+               <children>
+                  <RadioButton fx:id="btauto" mnemonicParsing="false" onMouseClicked="#autoSelected" text="Auto">
+                     <padding>
+                        <Insets right="7.0" />
+                     </padding>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tipovehiculo" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="btcamioneta" mnemonicParsing="false" onMouseClicked="#camionetaSelected" selected="true" text="Camioneta" toggleGroup="$tipovehiculo">
+                     <padding>
+                        <Insets right="7.0" />
+                     </padding>
+                  </RadioButton>
+                  <RadioButton fx:id="btmoto" mnemonicParsing="false" onMouseClicked="#motoSelected" text="Moto" toggleGroup="$tipovehiculo">
+                     <padding>
+                        <Insets right="7.0" />
+                     </padding>
+                  </RadioButton>
+               </children>
+            </HBox>
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
