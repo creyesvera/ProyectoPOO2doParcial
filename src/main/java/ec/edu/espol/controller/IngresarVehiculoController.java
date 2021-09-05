@@ -31,11 +31,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -87,7 +90,18 @@ public class IngresarVehiculoController implements Initializable {
     @FXML
     private Button btimport;
 
-    private IngresarVehiculoController ivC;
+    @FXML
+    private BorderPane root;
+    @FXML
+    private RadioButton btauto;
+    @FXML
+    private ToggleGroup tipovehiculo;
+    @FXML
+    private RadioButton btcamioneta;
+    @FXML
+    private RadioButton btmoto;
+    @FXML
+    private GridPane gridPane;
     /**
      * Initializes the controller class.
      * @param url
@@ -96,7 +110,6 @@ public class IngresarVehiculoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        ivC = this;
         vehiculos = Vehiculo.readFile("vehiculos.ser");
         placabox.clear();
         usuarios = Usuario.readFile("usuarios.ser");
@@ -152,7 +165,9 @@ public class IngresarVehiculoController implements Initializable {
             String color = colorbox.getText();
             String tipo_combustible = tipo_combustiblebox.getText();
             double precio = Double.parseDouble(preciobox.getText());
-            
+            String vidrios ; //null si es moto 
+            String transmicion;//null si es moto 
+            String traccion;//null si es moto y carros
             
                         
             int id = Vehiculo.nextID("vehiculos.ser") ; 
@@ -161,22 +176,20 @@ public class IngresarVehiculoController implements Initializable {
             
             Vehiculo v;
             
-            if(traccionbox == null){
-                if(transmicionbox == null && vidriosbox == null){
-                    v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, precio, usuario, id_vendedor, imagen);
-                }
-                else{
-                    int vidrios = Integer.parseInt(vidriosbox.getText()); //null si es moto 
-                    String transmicion = transmicionbox.getText();//null si es moto 
-                    v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, precio, usuario, id_vendedor, imagen);
-                    }
-                }
-            else{
-            int vidrios = Integer.parseInt(vidriosbox.getText()); //null si es moto 
-            String transmicion = transmicionbox.getText();//null si es moto 
-            String traccion = traccionbox.getText();//null si es moto y carros
-            v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, traccion, precio, usuario, id_vendedor, imagen);
+            if (btauto.isSelected()){
+                vidrios = vidriosbox.getText();
+                transmicion = transmicionbox.getText();
+                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, precio, usuario, id_vendedor, imagen);
+            }else if (btmoto.isSelected()){
+                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, precio, usuario, id_vendedor, imagen);
+            }else{
+                vidrios = vidriosbox.getText();
+                transmicion = transmicionbox.getText();
+                traccion = traccionbox.getText();
+                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, traccion, precio, usuario, id_vendedor, imagen);
+            
             }
+            
             usuario.getVehiculos().add(v);
             Usuario.saveFile("usuarios.ser", usuarios);
             vehiculos.add(v);
@@ -237,6 +250,36 @@ public class IngresarVehiculoController implements Initializable {
      private void cerrarVentana(){
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
+    }
+
+    @FXML
+    private void autoSelected(MouseEvent event) {
+         //constructor de carros, no tiene traccion
+        if(!gridPane.getChildren().contains(vidriosbox))    
+            gridPane.getChildren().add(vidriosbox);
+        if(!gridPane.getChildren().contains(transmicionbox)) 
+            gridPane.getChildren().add(transmicionbox);
+            gridPane.getChildren().remove(traccionbox);
+    }
+
+    @FXML
+    private void camionetaSelected(MouseEvent event) {
+        //construcctor de camionetas tiene todo
+        if(!gridPane.getChildren().contains(vidriosbox))    
+            gridPane.getChildren().add(vidriosbox);
+        if(!gridPane.getChildren().contains(transmicionbox)) 
+            gridPane.getChildren().add(transmicionbox);
+        if(!gridPane.getChildren().contains(traccionbox)) 
+            gridPane.getChildren().add(traccionbox);
+    }
+
+    @FXML
+    private void motoSelected(MouseEvent event) {
+        //constructor de motos, no tiene vidrios, transmicion y traccion
+        gridPane.getChildren().remove(vidriosbox);
+        gridPane.getChildren().remove(transmicionbox);
+        gridPane.getChildren().remove(traccionbox);
+        
     }
    
 }
