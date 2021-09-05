@@ -52,6 +52,7 @@ public class IniciarSesionController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         emailbox.clear();
         passwordbox.clear();// TODO
+        System.out.println(usuarios);
     }    
 
     @FXML
@@ -89,7 +90,6 @@ public class IniciarSesionController implements Initializable {
                 stage.show();
                 cerrarVentana();
             } catch (IOException ex) {
-                ex.printStackTrace();
                 alertaError("Ha ocurrido un error",ex.getMessage());
             }
         }
