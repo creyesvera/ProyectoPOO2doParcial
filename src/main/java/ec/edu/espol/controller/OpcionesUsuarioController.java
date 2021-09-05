@@ -8,6 +8,8 @@ package ec.edu.espol.controller;
 import ec.edu.espol.model.TipoUsuario;
 import ec.edu.espol.model.TipoVehiculo;
 import ec.edu.espol.model.Usuario;
+import ec.edu.espol.model.ValoresFueraDeRango;
+import ec.edu.espol.model.ValueTypeException;
 import ec.edu.espol.model.Vehiculo;
 import static ec.edu.espol.model.Vehiculo.separarVehiculosDeUsuario;
 import ec.edu.espol.proyectopoo2doparcial.App;
@@ -177,7 +179,19 @@ public class OpcionesUsuarioController implements Initializable {
     }
 
     private void ofertar(Vehiculo v){
-        
+        try{
+            FXMLLoader fxmlloader = App.loadFXMLLoader("detalleVehiculo");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            DetalleVehiculoController ouc = fxmlloader.getController();
+            ouc.recibirParametros(user,v);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            alertaError("Error inesperado",ex.getMessage());
+        }
     }
     
     private void mostrarVehiculosTableView(){
@@ -220,7 +234,12 @@ public class OpcionesUsuarioController implements Initializable {
         tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12);
         
         tableView.getItems().clear();
-        tableView.getItems().addAll(misNoVehiculos);
+        try{
+            tableView.getItems().addAll(misNoVehiculos);
+        }catch(Exception ex){
+            System.out.println(ex.getCause());
+        }
+        
     }
     
     private void mostrarHacerOfertas(){
@@ -243,40 +262,43 @@ public class OpcionesUsuarioController implements Initializable {
         this.cbTipoVehiculo.getItems().clear();
     }
         
-    private boolean validarParametros(){
+    private void validarParametros() throws ValueTypeException{
         List<TextField> txts = Arrays.asList(this.txtRecorridoI,this.txtRecorridoF,this.txtAnioI,this.txtAnioF,this.txtPrecioI,this.txtPrecioF);
         for (int i = 0; i < txts.size(); i++) {
             if(i%2==0){
                 if(txts.get(i).getText().trim().isEmpty() && !txts.get(i+1).getText().trim().isEmpty())
-                    return false;
+                    throw new ValueTypeException("No puede ingresar solo el valor final, también debe ingresar el inicial");
             }
         }
         for(TextField t: txts){
             if(!t.getText().trim().isEmpty()){
                 if(!esDouble(t.getText().trim()))
-                    return false;
+                    throw new ValueTypeException("Solo puede ingresar valores numericos");
             }
         }
-        if(!txts.get(2).getText().trim().isEmpty() )
-            return esInteger(txts.get(2).getText());
-        if(!txts.get(3).getText().trim().isEmpty())
-            return esInteger(txts.get(3).getText());
-        return true;
+        if(!txts.get(2).getText().trim().isEmpty() && !esInteger(txts.get(2).getText()))            
+            throw new ValueTypeException("El año solo puede tener numeros, no letras o decimales");
+        if(!txts.get(3).getText().trim().isEmpty() && esInteger(txts.get(3).getText()))
+            throw new ValueTypeException("El año solo puede tener numeros, no letras o decimales");        
     }
     
     @FXML
     private void realizarBusqueda(){
-        if(validarParametros()){
+        try{
+            validarParametros();
             String recorridos = txtRecorridoI.getText().trim() + "-"+txtRecorridoF.getText().trim();
             String anio = txtAnioI.getText().trim() +"-"+txtAnioF.getText().trim();
             String precios = txtPrecioI.getText().trim()+"-"+txtPrecioF.getText().trim();
-            double[] arr_recorridos = Util.validarRangosDouble(recorridos);        
+            double[] arr_recorridos = Util.validarRangosDouble(recorridos);              
             int[] arr_anios = Util.validarRangosInt(anio);
             double[] arr_precios =  Util.validarRangosDouble(precios);
             List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(misNoVehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
             mostrarResultadosBusqueda(vehiculosFiltrados);
-        }else
-            alertaError("PARAMETROS INCORRECTOS","- Solo debe ingresar valores numericos\n- El valor final no puede ser menor que el inicial");
+        }catch(ValoresFueraDeRango ex){
+            alertaError("Ha ocurrido un error",ex.getMessage());
+        } catch (ValueTypeException ex) {
+            alertaError("Ha ocurrido un error",ex.getMessage());
+        }
     }   
 
    private void mostrarResultadosBusqueda(List<Vehiculo> vehiculosT){
@@ -294,4 +316,5 @@ public class OpcionesUsuarioController implements Initializable {
         Stage myStage = (Stage) this.btnBuscar.getScene().getWindow();
         myStage.close();
     }
+    
 }
