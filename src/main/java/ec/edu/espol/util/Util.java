@@ -150,50 +150,55 @@ public class Util {
     public static int[] validarRangosInt(String datos){
         int [] rangos = new int[2];        
         String [] data = datos.split("-");
-        if(datos.length()== 0){
-            rangos[0] = 0;
-            rangos[1] = Integer.MAX_VALUE;
-            return rangos;
-        }
-        else if(data.length==1){
-            rangos[0] = Integer.parseInt(data[0].trim());
-            rangos[1] = Integer.MAX_VALUE;
-            return rangos;
-        }else if(data.length==2){
-            if(Integer.parseInt(data[0].trim())>Integer.parseInt(data[1].trim())){
-                alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
-                return null;
-            }else{
-                rangos[0] = Integer.parseInt(data[0].trim());
-                rangos[1] = Integer.parseInt(data[1].trim());
-                return rangos;
-            }
-        }
-        return null;
+        System.out.println("DATA"+data.length);
+       switch (data.length) {
+           case 0:
+               rangos[0] = 0;
+               rangos[1] = Integer.MAX_VALUE;
+               break;
+           case 1:
+               rangos[0] = Integer.parseInt(data[0].trim());
+               rangos[1] = Integer.MAX_VALUE;
+               break;
+           case 2:
+               if(Integer.parseInt(data[0].trim())>Integer.parseInt(data[1].trim())){
+                   alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
+                   return null;
+               }else{
+                   rangos[0] = Integer.parseInt(data[0].trim());
+                   rangos[1] = Integer.parseInt(data[1].trim());
+               }  
+               break;
+           default:
+               break;
+       }
+        return rangos;
     }
     
     public static double[] validarRangosDouble(String datos){
         double [] rangos = new double[2];        
         String [] data = datos.split("-");
-        if(datos.length()== 0){
-            rangos[0] = 0;
-            rangos[1] = Double.MAX_VALUE;
-            return rangos;
-        }
-        else if(data.length==1){
-            rangos[0] = Double.parseDouble(data[0].trim());
-            rangos[1] = Double.MAX_VALUE;
-            return rangos;
-        }else if(data.length==2){
-            if(Double.parseDouble(data[0].trim())>Double.parseDouble(data[1].trim())){
-                alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
-                return null;
-            }else{
-                rangos[0] = Double.parseDouble(data[0].trim());
-                rangos[1] = Double.parseDouble(data[1].trim());
-                return rangos;
-            }
-        }
+       switch (data.length) {
+           case 0:
+               rangos[0] = 0;
+               rangos[1] = Double.MAX_VALUE;
+               return rangos;
+           case 1:
+               rangos[0] = Double.parseDouble(data[0].trim());
+               rangos[1] = Double.MAX_VALUE;
+               return rangos;
+           case 2:
+               if(Double.parseDouble(data[0].trim())>Double.parseDouble(data[1].trim())){
+                   alertaError("ERROR DE RANGO","El valor inicial no puede ser que el valor final");
+                   return null;
+               }else{
+                   rangos[0] = Double.parseDouble(data[0].trim());
+                   rangos[1] = Double.parseDouble(data[1].trim());
+                   return rangos;
+               }
+           default:
+               break;
+       }
         return null;
     }
 }
