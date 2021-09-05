@@ -383,57 +383,8 @@ public class Vehiculo implements Serializable{
         }
         return null;
     }
-        
-    public static ArrayList<Vehiculo> searchByTipo(ArrayList<Vehiculo> vehiculos, TipoVehiculo tipo){
-        ArrayList<Vehiculo> filtro_vehiculos = new ArrayList<>();
-        for(Vehiculo vehiculo : vehiculos){
-            if (vehiculo.getTipo() == tipo) //moto
-                filtro_vehiculos.add(vehiculo);
-            }        
-        return filtro_vehiculos;
-    }
     
-    
-    public static ArrayList<Vehiculo> searchByRecorrido(ArrayList<Vehiculo> vehiculos, double max_rec, double min_rec)
-    {
-        ArrayList<Vehiculo> filtro_vehiculos = new ArrayList<>();
-        for(Vehiculo veh : vehiculos)
-        {
-            if(veh.recorrido<= max_rec && veh.recorrido>= min_rec)
-                filtro_vehiculos.add(veh);
-        }
-        if(max_rec == 0 && min_rec == 0)
-            filtro_vehiculos = vehiculos;
-        
-        return filtro_vehiculos;
-    }
-    
-    public static ArrayList<Vehiculo> searchByPrecio(ArrayList<Vehiculo> vehiculos, double max_prec, double min_prec)
-    {
-        ArrayList<Vehiculo> filtro_vehiculos = new ArrayList<>();
-        for(Vehiculo veh : vehiculos)
-        {
-            if(veh.precio<= max_prec && veh.precio>= min_prec)
-                filtro_vehiculos.add(veh);
-        }
-        if(max_prec == 0 && min_prec == 0)
-            filtro_vehiculos = vehiculos;
-        return filtro_vehiculos;
-    }
-    
-    public static ArrayList<Vehiculo> searchByYear(ArrayList<Vehiculo> vehiculos, int max_year, int min_year)
-    {
-        ArrayList<Vehiculo> filtro_vehiculos = new ArrayList<>();
-        for(Vehiculo veh : vehiculos)
-        {
-            if(veh.year<= max_year && veh.year >= min_year)
-                filtro_vehiculos.add(veh);
-        }
-        if(max_year == 0 && min_year == 0)
-            filtro_vehiculos = vehiculos;
-        return filtro_vehiculos;
-    }
-    /*estas funciones devuelven una lista de vehículos que coinciden con el tipo 
+        /*estas funciones devuelven una lista de vehículos que coinciden con el tipo 
     y que están dentro del rango de recorrido, precio, año respectivamente.(arriba)
     */
     
@@ -479,5 +430,15 @@ public class Vehiculo implements Serializable{
         return vehiculoSeleccionados;
     }
     
+    //Metodo que retorna una lista con los vvehiculos que NO pertenezcan al usuario recibido como parametro
+    public static List<Vehiculo> separarVehiculosDeUsuario(Usuario user, List<Vehiculo> v){
+        List<Vehiculo> misNoVehiculos = new ArrayList<>();
+        System.out.println("AGGH HP"+user.getVehiculos());
+        v.forEach(e->{
+            if(!e.getVendedor().equals(user))
+                misNoVehiculos.add(e);
+        });
+        return misNoVehiculos;
+    }
     
 }
