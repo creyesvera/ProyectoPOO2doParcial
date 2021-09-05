@@ -87,6 +87,7 @@ public class IngresarVehiculoController implements Initializable {
     @FXML
     private Button btimport;
 
+    private IngresarVehiculoController ivC;
     /**
      * Initializes the controller class.
      * @param url
@@ -95,6 +96,7 @@ public class IngresarVehiculoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        ivC = this;
         vehiculos = Vehiculo.readFile("vehiculos.ser");
         placabox.clear();
         usuarios = Usuario.readFile("usuarios.ser");
@@ -115,12 +117,7 @@ public class IngresarVehiculoController implements Initializable {
     
     @FXML
     private void regresar(MouseEvent event) {
-        if (usuario.getTipo() == TipoUsuario.COMPRADOR)
-                compradorsesion();
-            else if (usuario.getTipo() == TipoUsuario.VENDEDOR)
-                vendedorsesion();
-            else 
-                ambossesion();
+        
     }
 
     @FXML
@@ -229,7 +226,7 @@ public class IngresarVehiculoController implements Initializable {
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
     }
-    
+    /*
     private void compradorsesion(){
     try {
             FXMLLoader fxmlloader = App.loadFXMLLoader("comprador");
@@ -261,7 +258,6 @@ public class IngresarVehiculoController implements Initializable {
             stage.show();
             cerrarVentana();
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
     
@@ -274,17 +270,17 @@ public class IngresarVehiculoController implements Initializable {
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
-            /*
+            
             AmbosController sesion = fxmlloader.getController();
             if (usuario != null)
                 sesion.setUsuario(usuario);
-*/
+
             cerrarVentana();
         } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
-   
-    
-    
+    */
+    public void recibirParametros(Usuario user){
+        this.usuario = user;
+    }    
 }
