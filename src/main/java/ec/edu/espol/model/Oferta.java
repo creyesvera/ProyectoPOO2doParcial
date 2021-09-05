@@ -11,20 +11,21 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author camil
  */
-public class Oferta {
+public class Oferta implements Serializable{
     private int id;
     private Usuario comprador;
     private int id_comprador;
     private Vehiculo vehiculo;
     private int id_vehiculo;
     private double precio;
-
+    private static final long serialVersionUID = 8456845898545269L;
     public Oferta(int id, int id_comprador, int id_vehiculo, double precio) {
         this.id = id;
         this.id_comprador = id_comprador;
