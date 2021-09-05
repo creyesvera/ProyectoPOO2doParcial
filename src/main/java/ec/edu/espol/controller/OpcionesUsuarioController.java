@@ -197,11 +197,15 @@ public class OpcionesUsuarioController implements Initializable {
             double[] arr_recorridos = Util.validarRangosDouble(recorridos);
             int[] arr_anios = Util.validarRangosInt(anio);
             double[] arr_precios =  Util.validarRangosDouble(precios);
-            
+            List<Vehiculo> vehiculosFiltrados = Vehiculo.filtrarVehiculos(vehiculos, this.cbTipoVehiculo.getValue(), arr_recorridos, arr_anios, arr_precios);
+            mostrarResultadosBusqueda(vehiculosFiltrados);
         }else
             alertaError("PARAMETROS INCORRECTOS","- Solo debe ingresar valores numericos\n- El valor final no puede ser menor que el inicial");
     }   
 
+   private void mostrarResultadosBusqueda(List<Vehiculo> vehiculosT){
+       
+   }
     //VENDEDOR
 
     @FXML
