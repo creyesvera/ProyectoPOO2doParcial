@@ -150,59 +150,50 @@ public class IngresarVehiculoController implements Initializable {
     private void ingresar(MouseEvent event) {        
         try{
             String placa = placabox.getText();
-            if(!Util.validacionPlaca(placa,vehiculos)){
-                String imagen = null;
-            if (placa== null){
-                Alert a = new Alert(Alert.AlertType.ERROR,"Por favor ingrese otro numero de placa");
-                a.show();
-            }
-            else
-                imagen = saveImgName(placa);
-            
-            String marca = marcabox.getText();
-            String modelo = modelobox.getText();
-            String tipo_motor = tipo_motorbox.getText();
-            int year = Integer.parseInt(yearbox.getText());
-            double recorrido = Double.parseDouble(recorridobox.getText());
-            String color = colorbox.getText();
-            String tipo_combustible = tipo_combustiblebox.getText();
-            double precio = Double.parseDouble(preciobox.getText());
-            String vidrios ; //null si es moto 
-            String transmicion;//null si es moto 
-            String traccion;//null si es moto y carros
-            
-                        
-            int id = Vehiculo.nextID("vehiculos.ser") ; 
-            //Usuario vendedor=null;
-            int id_vendedor= Usuario.nextID("usuario.ser");
-            
-            Vehiculo v;
-            
-            if (btauto.isSelected()){
-                vidrios = vidriosbox.getText();
-                transmicion = transmicionbox.getText();
-                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, precio, usuario, id_vendedor, imagen);
-            }else if (btmoto.isSelected()){
-                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, precio, usuario, id_vendedor, imagen);
-            }else{
-                vidrios = vidriosbox.getText();
-                transmicion = transmicionbox.getText();
-                traccion = traccionbox.getText();
-                v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, traccion, precio, usuario, id_vendedor, imagen);
-            
-            }
-            int i = usuarios.indexOf(usuario);            
-            usuario.getVehiculos().add(v);
-            usuarios.set(i, usuario);
-            Usuario.saveFile("usuarios.ser", usuarios);
-            
-            vehiculos.add(v);
-            Vehiculo.saveFile("vehiculos.ser", vehiculos);
-            
-            
-           
-            Alert ok = new Alert(Alert.AlertType.CONFIRMATION,"El vehículo se a registrado con éxito");
-            ok.show();
+            if(placa!= null && !Util.validacionPlaca(placa,vehiculos)){
+                String imagen = saveImgName(placa);                           
+                String marca = marcabox.getText();
+                String modelo = modelobox.getText();
+                String tipo_motor = tipo_motorbox.getText();
+                int year = Integer.parseInt(yearbox.getText());
+                double recorrido = Double.parseDouble(recorridobox.getText());
+                String color = colorbox.getText();
+                String tipo_combustible = tipo_combustiblebox.getText();
+                double precio = Double.parseDouble(preciobox.getText());
+                String vidrios ; //null si es moto 
+                String transmicion;//null si es moto 
+                String traccion;//null si es moto y carros
+
+
+                int id = Vehiculo.nextID("vehiculos.ser") ; 
+                //Usuario vendedor=null;
+                int id_vendedor= Usuario.nextID("usuario.ser");
+
+                Vehiculo v;
+
+                if (btauto.isSelected()){
+                    vidrios = vidriosbox.getText();
+                    transmicion = transmicionbox.getText();
+                    v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, precio, usuario, id_vendedor, imagen);
+                }else if (btmoto.isSelected()){
+                    v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, precio, usuario, id_vendedor, imagen);
+                }else{
+                    vidrios = vidriosbox.getText();
+                    transmicion = transmicionbox.getText();
+                    traccion = traccionbox.getText();
+                    v = new Vehiculo(id, placa, marca, modelo, tipo_motor, year, recorrido, color, tipo_combustible, vidrios, transmicion, traccion, precio, usuario, id_vendedor, imagen);
+
+                }
+                int i = usuarios.indexOf(usuario);            
+                usuario.getVehiculos().add(v);
+                usuarios.set(i, usuario);
+                Usuario.saveFile("usuarios.ser", usuarios);
+
+                vehiculos.add(v);
+                Vehiculo.saveFile("vehiculos.ser", vehiculos);
+
+                Alert ok = new Alert(Alert.AlertType.CONFIRMATION,"El vehículo se a registrado con éxito");
+                ok.show();
             }else{
                 alertaError("","Por favor ingrese otro numero de placa");
             }
