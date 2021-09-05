@@ -28,7 +28,7 @@ public class Vehiculo {
     private double recorrido;   //validar que sea positivo
     private String color;
     private String tipo_combustible;
-    private int vidrios;        //validar que sea positivo
+    private String vidrios;        //validar que sea positivo
     private String transmicion;
     private String traccion;
     private double precio;      //validar que sea positivo
@@ -39,7 +39,7 @@ public class Vehiculo {
     private TipoVehiculo tipo;
     
     //constructor de carros, no tiene traccion
-    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, String vidrios, String transmicion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
@@ -57,10 +57,9 @@ public class Vehiculo {
             throw new ValueTypeException("Error al guardar la imagen, verificar que se haya importado una imagen y que el numero de placa es correcto");
         this.tipo = TipoVehiculo.AUTOS;
         
-        if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
+        if(year>1495 && recorrido>=0 && precio>=0){
             this.year = year;
             this.recorrido = recorrido;
-            this.vidrios = vidrios;
             this.precio = precio;
         }
         else
@@ -98,7 +97,7 @@ public class Vehiculo {
     
     //construcctor de camionetas tiene todo
 
-    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, int vidrios, String transmicion, String traccion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
+    public Vehiculo(int id, String placa, String marca, String modelo, String tipo_motor, int year, double recorrido, String color, String tipo_combustible, String vidrios, String transmicion, String traccion, double precio, Usuario vendedor, int id_vendedor, String imagen) throws ValueTypeException {
         this.id = id;
         this.placa = placa;
         this.marca = marca;
@@ -111,6 +110,7 @@ public class Vehiculo {
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
         this.id_vendedor = id_vendedor;
+        this.vidrios = vidrios;
         if (imagen != null)
             this.imagen = imagen;
         else
@@ -118,10 +118,9 @@ public class Vehiculo {
         
         this.tipo = TipoVehiculo.CAMIONETAS;
         
-        if(year>1495 && recorrido>=0 && vidrios>=0 && precio>=0){
+        if(year>1495 && recorrido>=0 && precio>=0){
             this.year = year;
             this.recorrido = recorrido;
-            this.vidrios = vidrios;
             this.precio = precio;
         }
         else
@@ -211,17 +210,14 @@ public class Vehiculo {
         this.tipo_combustible = tipo_combustible;
     }
 
-    public int getVidrios() {
+    public String getVidrios() {
         return vidrios;
     }
 
-    public void setVidrios(int vidrios) throws ValueTypeException {
-        if(vidrios>=0){
+    public void setVidrios(String vidrios){
+       
             this.vidrios = vidrios;
-        }
-        else
-            throw new ValueTypeException("NO SE CUMPLE vidrios>=0");
-        
+     
     }
 
     public String getTransmicion() {
