@@ -150,7 +150,6 @@ public class Util {
     public static int[] validarRangosInt(String datos){
         int [] rangos = new int[2];        
         String [] data = datos.split("-");
-        System.out.println("DATA"+data.length);
        switch (data.length) {
            case 0:
                rangos[0] = 0;
