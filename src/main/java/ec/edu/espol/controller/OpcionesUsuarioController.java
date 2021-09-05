@@ -34,9 +34,11 @@ import javafx.scene.control.Menu;
 
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -161,11 +163,23 @@ public class OpcionesUsuarioController implements Initializable {
     @FXML
     private void hacerOferta(){
         mostrarHacerOfertas();
-        mostrarVehiculosTableView();
-        //Tipovehiculo, recorrido, año, precio
-       
+        mostrarVehiculosTableView();        
+        tableView.setRowFactory(e->{
+            TableRow<Vehiculo> row = new TableRow<>();
+            row.setOnMouseClicked(at->{
+                if(!row.isEmpty() && at.getButton() == MouseButton.PRIMARY && at.getClickCount() == 2){
+                    Vehiculo v = row.getItem();
+                    ofertar(v);
+                }
+            });
+            return row;
+        });
     }
 
+    private void ofertar(Vehiculo v){
+        
+    }
+    
     private void mostrarVehiculosTableView(){
         TableColumn<Vehiculo,String> col1 =  new TableColumn<>("Placa");
         col1.setCellValueFactory(new PropertyValueFactory<>("placa"));
