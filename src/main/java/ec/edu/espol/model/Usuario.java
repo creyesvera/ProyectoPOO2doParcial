@@ -131,7 +131,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) obj;
-        return this.id == id;
+        return this.correo_elec.equalsIgnoreCase(other.correo_elec);
     }
 
     @Override
@@ -146,8 +146,11 @@ public class Usuario implements Serializable {
             ObjectOutputStream object = new ObjectOutputStream(file);
             object.writeObject(usuarios);
             object.flush();
+        } catch(FileNotFoundException ex){
+            System.out.println(ex.getMessage());
         }
         catch(IOException e){
+            System.out.println(e.getMessage());
         }
     }
     
@@ -158,8 +161,10 @@ public class Usuario implements Serializable {
             ObjectInputStream object = new ObjectInputStream(file);
             usuarios = (ArrayList<Usuario>) object.readObject();
         }catch(FileNotFoundException e){
+            System.out.println(e.getMessage());
         }
-        catch(ClassNotFoundException | IOException e){
+         catch(IOException | ClassNotFoundException e){
+             System.out.println(e.getMessage());
         }
     
         return usuarios;
@@ -205,7 +210,9 @@ public class Usuario implements Serializable {
         arr_ofertas.add(new_oferta);
         Oferta.saveFile(nomfile_ofertas, arr_ofertas);
         this.ofertas.add(new_oferta);
-        Usuario.saveFile("usuarios.ser", usuarios);
+        int i = usuarios.indexOf(this);
+        usuarios.set(i, this);
+        saveFile("usuarios.ser", usuarios);
     }
     
     public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
