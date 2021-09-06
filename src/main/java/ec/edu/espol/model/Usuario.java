@@ -143,7 +143,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombres=" + nombres + ", apellidos=" + apellidos + ", correo_elec=" + correo_elec + ", organizacion=" + organizacion + ", vehiculos=" + vehiculos + ", ofertas=" + ofertas + '}';
+        return nombres+"\t"+correo_elec;
     }
     
     public static void saveFile(String nomfile, ArrayList<Usuario> usuarios){
@@ -210,22 +210,15 @@ public class Usuario implements Serializable {
         return -1;
     }
     
-    public void comprar(Vehiculo v, String nomfile_ofertas, double precio, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos){ //ofertas.txt        
-        ArrayList<Oferta> arr_ofertas = Oferta.readFile(nomfile_ofertas);
-        int id_oferta = Oferta.nextID(nomfile_ofertas);        
-        Oferta new_oferta = new Oferta(id_oferta, this,v, precio);                
-        try{  
-            Usuario u = new Usuario(id,  nombres,  apellidos,  correo_elec,  organizacion,  clave,  tipo);            
-            arr_ofertas.add(new_oferta); 
-            this.ofertas.add(new_oferta);
-            int i = usuarios.indexOf(this);                                
-            usuarios.get(i).getOfertas().add(new Oferta(id_oferta, u,v, precio));                
-            v.getOfertas().add(new_oferta);                        
-            int iV = vehiculos.indexOf(v);
-            vehiculos.set(iV,v);
-        }catch(ValueTypeException ex){
-                System.out.println(ex.getMessage());
-            }
+    public void comprar(Oferta o, String nomfile_ofertas, ArrayList<Usuario> usuarios, ArrayList<Vehiculo> vehiculos){ //ofertas.txt        
+        ArrayList<Oferta> arr_ofertas = Oferta.readFile(nomfile_ofertas);                   
+        arr_ofertas.add(o);
+        int i = usuarios.indexOf(this);
+        usuarios.get(i).getOfertas().add(o);        
+        o.getVehiculo().getOfertas().add(o);
+        int iV = vehiculos.indexOf(o.getVehiculo());
+        vehiculos.set(iV,o.getVehiculo());
+        System.out.println("NO SIRVE ESTA COCHINADAAAAAAA" + arr_ofertas);
         Oferta.saveFile(nomfile_ofertas, arr_ofertas);
         Vehiculo.saveFile("vehiculos.ser", vehiculos);                
         Usuario.saveFile("usuarios.ser", usuarios);
