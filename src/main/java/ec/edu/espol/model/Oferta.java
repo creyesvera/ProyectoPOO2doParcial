@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -26,8 +27,7 @@ public class Oferta implements Serializable{
     private Vehiculo vehiculo;
     private int id_vehiculo;
     private double precio;
-    private static final long serialVersionUID = 8456845898545269L;
-    
+        
     public Oferta(int id, Usuario comprador, Vehiculo vehiculo, double precio) {
         this.id = id;
         this.comprador = comprador;
@@ -183,4 +183,21 @@ public class Oferta implements Serializable{
         return null;
     }
     
+    public static ArrayList<Oferta> separaOFertasUsuario(List<Oferta> of, Usuario u){
+        ArrayList<Oferta> ofertas = new ArrayList<>();
+        of.forEach(e->{
+            if(e.getComprador().equals(u))
+                ofertas.add(e);
+        });
+        return ofertas;
+    }
+    
+    public static ArrayList<Oferta> separaOfertasPlaca(List<Oferta> of, String placa){
+       ArrayList<Oferta> ofertas = new ArrayList<>();
+       of.forEach(e->{
+            if(e.getVehiculo().getPlaca().equalsIgnoreCase(placa))
+                ofertas.add(e);
+        });
+       return ofertas;
+    }
 }
