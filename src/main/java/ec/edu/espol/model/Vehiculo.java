@@ -317,6 +317,11 @@ public class Vehiculo implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return placa;
+    }
     
     
     public static void saveFile(String nomfile, ArrayList<Vehiculo> vehiculos){
@@ -440,5 +445,6 @@ public class Vehiculo implements Serializable{
         });
         return misNoVehiculos;
     }
+    
     
 }
