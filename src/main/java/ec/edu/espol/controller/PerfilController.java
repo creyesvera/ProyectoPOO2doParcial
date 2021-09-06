@@ -75,8 +75,6 @@ public class PerfilController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            usuario = new Usuario(5,"s","s","camila@gmail.com","s","s",TipoUsuario.COMPRADOR); //usuario de prueba
         
         nombres.setText(usuario.getNombres());
         apellidos.setText(usuario.getApellidos());
@@ -95,11 +93,7 @@ public class PerfilController implements Initializable {
         gridpane.getChildren().remove(passwordbox);
         gridpane.getChildren().remove(btcancelar);
     
-          
-        } catch (ValueTypeException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR,"Usuario de prueba");
-                a.show();
-        }
+        
         
     }    
 
