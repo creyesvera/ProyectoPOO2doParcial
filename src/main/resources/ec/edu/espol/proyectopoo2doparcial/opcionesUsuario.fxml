@@ -162,6 +162,7 @@
                <center>
                   <TableView fx:id="tableViewOfertas" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
                </center></BorderPane>
+            <BorderPane fx:id="rootMostarOfertados" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </StackPane>
    </center>
