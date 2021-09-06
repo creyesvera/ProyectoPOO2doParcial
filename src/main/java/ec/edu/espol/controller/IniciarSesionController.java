@@ -91,7 +91,7 @@ public class IniciarSesionController implements Initializable {
                 stage.show();
                 cerrarVentana();
             } catch (IOException ex) {
-                alertaError("Ha ocurrido un error",ex.getMessage());
+                alertaError("Ha ocurrido un error",ex.getMessage()+"\n"+ex.getCause().getMessage());
             }
         }
         else{
