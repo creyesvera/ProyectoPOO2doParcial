@@ -54,7 +54,10 @@ import javafx.stage.Stage;
 public class OpcionesUsuarioController implements Initializable {
     private ArrayList<Vehiculo> vehiculos;
     private List<Vehiculo> misNoVehiculos;
-    
+    private List<Vehiculo> misVehiculos;
+   
+    private ArrayList<Oferta> ofertas;
+    private ArrayList<Oferta> ofertasParaMisVehiculos;
     @FXML
     private MenuItem itemOfertar;
     @FXML
@@ -80,6 +83,7 @@ public class OpcionesUsuarioController implements Initializable {
     private BorderPane rootOfertar;
     @FXML
     private BorderPane rootAceptarOferta;
+    @FXML
     private BorderPane rootMostarOfertados;
     @FXML
     private ComboBox<TipoVehiculo> cbTipoVehiculo;
@@ -113,9 +117,11 @@ public class OpcionesUsuarioController implements Initializable {
         // TODO
         opC = this;                       
         vehiculos = Vehiculo.readFile("vehiculos.ser");        
+        ofertas = Oferta.readFile("ofertas.ser");
+        System.out.println("ESTA VAINA "+ofertas);
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
-        this.rootOfertar.setVisible(false);        
+        this.rootOfertar.setVisible(false);             
     }    
     
     private void mostrarMenu(){
@@ -136,7 +142,13 @@ public class OpcionesUsuarioController implements Initializable {
     public void recibirParametros(Usuario u){
         user = u;
         misNoVehiculos = separarVehiculosDeUsuario(user,vehiculos);
-        mostrarMenu();
+        System.out.println(vehiculos +"P!!!!!!");
+        System.out.println("INTENO N"+misNoVehiculos);
+        System.out.println("PRUEBAAAAAA");
+        ofertasParaMisVehiculos = Oferta.separaOFertasUsuario(ofertas, user);
+        //System.out.println("AAAA" +u.getVehiculos());
+    //misVehiculos = u.getVehiculos();
+        mostrarMenu();        
     }
     
     //VEHICULO
@@ -317,11 +329,16 @@ public class OpcionesUsuarioController implements Initializable {
     @FXML
     private void aceptarOferta(ActionEvent event) {
         mostrarVenderVehiculo();
+        llenarTableViewOfertas(ofertasParaMisVehiculos);
+    }
+    
+    public ArrayList<Oferta> filtrarOfertas(){             
+        return Oferta.separaOfertasPlaca(this.ofertasParaMisVehiculos, txtPlaca.getText().trim());
     }
     
     private void llenarTableViewOfertas(List<Oferta> ofertas){
-        TableColumn<Oferta,String> col1 =  new TableColumn<>("Placa");
-        col1.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        TableColumn<Oferta,String> col1 =  new TableColumn<>("Vehiculo");
+        col1.setCellValueFactory(new PropertyValueFactory<>("vehiculo"));
         
         TableColumn<Oferta,String> col2 =  new TableColumn<>("Comprador");
         col2.setCellValueFactory(new PropertyValueFactory<>("comprador"));
