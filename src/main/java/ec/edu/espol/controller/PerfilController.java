@@ -70,14 +70,20 @@ public class PerfilController implements Initializable {
     @FXML
     private Button btcancelar;
 
+    private PerfilController pC;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            usuario = new Usuario(5,"s","s","camila@gmail.com","s","s",TipoUsuario.COMPRADOR); //usuario de prueba
+        pC = this;
+        //usuario = new Usuario(5,"s","s","camila@gmail.com","s","s",TipoUsuario.COMPRADOR); //usuario de prueba
         
+        
+        
+    }    
+    
+    private void configUsuario(){
         nombres.setText(usuario.getNombres());
         apellidos.setText(usuario.getApellidos());
         organizacion.setText(usuario.getOrganizacion());
@@ -88,20 +94,12 @@ public class PerfilController implements Initializable {
             tipo.selectToggle(vendedortype);
         else
             tipo.selectToggle(ambostype);
-        
         gridpane.getChildren().remove(txtnewpassword);
         gridpane.getChildren().remove(txtoldpassword);
         gridpane.getChildren().remove(newpasswordbox);
         gridpane.getChildren().remove(passwordbox);
         gridpane.getChildren().remove(btcancelar);
-    
-          
-        } catch (ValueTypeException ex) {
-            Alert a = new Alert(Alert.AlertType.ERROR,"Usuario de prueba");
-                a.show();
-        }
-        
-    }    
+    }
 
     @FXML
     private void regresar(MouseEvent event) {
@@ -168,6 +166,15 @@ public class PerfilController implements Initializable {
     private void cerrarVentana(){
         Stage myStage = (Stage) this.btregresar.getScene().getWindow();
         myStage.close();
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        configUsuario();
     }
     
 }

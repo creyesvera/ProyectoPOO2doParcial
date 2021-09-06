@@ -36,10 +36,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.BorderPane;
@@ -61,15 +63,9 @@ public class OpcionesUsuarioController implements Initializable {
     @FXML
     private MenuItem itemOfertar;
     @FXML
-    private MenuItem itemVerOfertas;
-    @FXML
     private MenuItem itemAgregarVehiculo;
     @FXML
     private MenuItem itemAceptarOferta;
-    @FXML
-    private MenuItem itemConfiguracion;
-    @FXML
-    private MenuItem itemCerrarSesion;
         
     private OpcionesUsuarioController opC;
     private Usuario user;
@@ -107,6 +103,14 @@ public class OpcionesUsuarioController implements Initializable {
     private TextField txtPlaca;
     @FXML
     private TableView<Oferta> tableViewOfertas;
+    @FXML
+    private RadioButton rdPrecio;
+    @FXML
+    private RadioButton rdAnio;
+    
+    private ToggleGroup toggle;
+    
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -120,9 +124,20 @@ public class OpcionesUsuarioController implements Initializable {
         ofertas = Oferta.readFile("ofertas.ser");       
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
-        this.rootOfertar.setVisible(false);             
+        this.rootOfertar.setVisible(false);    
+        toggle = new ToggleGroup();
+        rdPrecio.setToggleGroup(toggle);
+        rdAnio.setToggleGroup(toggle);
     }    
-    
+
+    private void configRadioButton(){
+        rdPrecio.setOnAction(e->{
+            mostrarVehiculosTableView("precio");
+        });
+        rdAnio.setOnAction(e->{
+            mostrarVehiculosTableView("anio");
+        });
+    }
     private void mostrarMenu(){
         switch (user.getTipo()) {
             case COMPRADOR:
@@ -148,6 +163,7 @@ public class OpcionesUsuarioController implements Initializable {
     
     //VEHICULO
     private void mostrarVenderVehiculo(){
+        configRadioButton();
         this.rootAceptarOferta.setVisible(true);
         this.rootMostarOfertados.setVisible(false);
         this.rootOfertar.setVisible(false);
@@ -176,7 +192,7 @@ public class OpcionesUsuarioController implements Initializable {
     @FXML
     private void hacerOferta(){
         mostrarHacerOfertas();
-        mostrarVehiculosTableView();        
+        mostrarVehiculosTableView("");        
         tableView.setRowFactory(e->{
             TableRow<Vehiculo> row = new TableRow<>();
             row.setOnMouseClicked(at->{
@@ -210,7 +226,8 @@ public class OpcionesUsuarioController implements Initializable {
         }
     }
     
-    private void mostrarVehiculosTableView(){
+    private void mostrarVehiculosTableView(String valor){
+        tableView.getColumns().clear();
         TableColumn<Vehiculo,String> col1 =  new TableColumn<>("Placa");
         col1.setCellValueFactory(new PropertyValueFactory<>("placa"));
         
@@ -224,7 +241,7 @@ public class OpcionesUsuarioController implements Initializable {
         col4.setCellValueFactory(new PropertyValueFactory<>("tipo_motor"));
         
         TableColumn<Vehiculo,Integer> col5 =  new TableColumn<>("Año");
-        col5.setCellValueFactory(new PropertyValueFactory<>("year"));
+        col5.setCellValueFactory(new PropertyValueFactory<>("year"));               
         
         TableColumn<Vehiculo,Double> col6 =  new TableColumn<>("Recorrido");
         col6.setCellValueFactory(new PropertyValueFactory<>("recorrido"));
@@ -247,6 +264,11 @@ public class OpcionesUsuarioController implements Initializable {
         TableColumn<Vehiculo,Double> col12 =  new TableColumn<>("Precio");
         col12.setCellValueFactory(new PropertyValueFactory<>("precio"));
         
+        if(valor.equalsIgnoreCase("anio"))
+            tableView.getSortOrder().add(col5);
+        else if(valor.equalsIgnoreCase("precio")){
+            tableView.getSortOrder().add(col12);
+        }
         tableView.getColumns().addAll(col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12);
         
         tableView.getItems().clear();
@@ -327,11 +349,12 @@ public class OpcionesUsuarioController implements Initializable {
         llenarTableViewOfertas(ofertasParaMisVehiculos);
     }
     
-    public ArrayList<Oferta> filtrarOfertas(){             
-        return Oferta.separaOfertasPlaca(this.ofertasParaMisVehiculos, txtPlaca.getText().trim());
+    public ArrayList<Oferta> filtrarOfertas(String placa){             
+        return Oferta.separaOfertasPlaca(this.ofertasParaMisVehiculos, placa);
     }
     
     private void llenarTableViewOfertas(List<Oferta> ofertas){
+        tableViewOfertas.getColumns().clear();
         TableColumn<Oferta,String> col1 =  new TableColumn<>("Vehiculo");
         col1.setCellValueFactory(new PropertyValueFactory<>("vehiculo"));
         
@@ -367,6 +390,11 @@ public class OpcionesUsuarioController implements Initializable {
 
     @FXML
     private void buscarOfertas(ActionEvent event) {
+        if(!txtPlaca.getText().trim().isEmpty()){
+            ArrayList<Oferta> newOfertas = filtrarOfertas(txtPlaca.getText().trim());
+            llenarTableViewOfertas(newOfertas);
+        }else 
+            alertaError("DATOS INCORRECTOS","DEBE INGRESAR EL NUMERO DE PLACA");
     }
 
     private void vender(Oferta v) {        
@@ -376,13 +404,49 @@ public class OpcionesUsuarioController implements Initializable {
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             DetalleOfertaController ouc = fxmlloader.getController();
-            ouc.recibirParametros(v);
+            ouc.recibirParametros(v,user);
             stage.setResizable(false);
             stage.setScene(scene);
             stage.show();
+            cerrarVentana();
         } catch (IOException ex) {
             alertaError("Error inesperado",ex.getMessage());
         }
     }
+
+    @FXML
+    private void configurarCuenta(ActionEvent event) {
+        try{
+            FXMLLoader fxmlloader = App.loadFXMLLoader("perfil");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            PerfilController pC = fxmlloader.getController();
+            pC.setUsuario(user);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+        } catch (IOException ex) {
+            alertaError("Error inesperado",ex.getMessage());
+        }
+    }
+
+    @FXML
+    private void cerrarSesion(ActionEvent event) {
+        try{
+            FXMLLoader fxmlloader = App.loadFXMLLoader("iniciarSesion");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+            cerrarVentana();
+        } catch (IOException ex) {
+            alertaError("Error inesperado",ex.getMessage());
+        }
+    }
+    
     
 }

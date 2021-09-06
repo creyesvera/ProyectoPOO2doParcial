@@ -47,7 +47,7 @@ public class App extends Application {
     public static void main(String[] args) {
        ArrayList<Usuario> usuarios = Usuario.readFile("usuarios.ser");
         System.out.println(usuarios);
-    launch();
+        launch();
     }
 
 }

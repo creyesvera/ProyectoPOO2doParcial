@@ -5,8 +5,11 @@
  */
 package ec.edu.espol.util;
 
+import java.util.Optional;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 
 /**
  *
@@ -35,5 +38,12 @@ public class Alarmas {
         a.show();
     }
     
+    public static boolean alertaAceptar(String encabezado, String contenido){
+        ButtonType btmAceptar = new ButtonType("Aceptar",ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(AlertType.INFORMATION,encabezado,btmAceptar);
+        alert.setTitle(contenido);
+        Optional<ButtonType> result = alert.showAndWait();        
+        return result.orElse(btmAceptar) == btmAceptar;
+    }
     
 }
