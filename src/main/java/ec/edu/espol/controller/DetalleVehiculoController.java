@@ -86,7 +86,10 @@ public class DetalleVehiculoController implements Initializable {
     @FXML
     private void ofertar(ActionEvent event) {
         if(validarCampos()){
-            user.comprar(vehiculo, "ofertas.ser", Double.parseDouble(txtPrecioOfer.getText()), usuarios,vehiculos); 
+            ArrayList<Oferta> arr_ofertas = Oferta.readFile("ofertas.ser");        
+            int id_oferta = Oferta.nextID("ofertas.ser");    
+            Oferta o = new Oferta(id_oferta,user,vehiculo,Double.parseDouble(txtPrecioOfer.getText()));
+            user.comprar(o,"ofertas.ser",usuarios,vehiculos); 
             alertaInformacion("OFERTA REALIZADA","Se ha agregado una nueva oferta para el vehículo");            
             cerrarVentana();
         }else
