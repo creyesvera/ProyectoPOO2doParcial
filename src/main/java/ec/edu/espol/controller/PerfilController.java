@@ -76,8 +76,11 @@ public class PerfilController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+<<<<<<< HEAD
         pC = this;
         //usuario = new Usuario(5,"s","s","camila@gmail.com","s","s",TipoUsuario.COMPRADOR); //usuario de prueba
+=======
+>>>>>>> 47c964a6019e7b8cb03d910730127eb885a78f52
         
         
         
@@ -99,7 +102,14 @@ public class PerfilController implements Initializable {
         gridpane.getChildren().remove(newpasswordbox);
         gridpane.getChildren().remove(passwordbox);
         gridpane.getChildren().remove(btcancelar);
+<<<<<<< HEAD
     }
+=======
+    
+        
+        
+    }    
+>>>>>>> 47c964a6019e7b8cb03d910730127eb885a78f52
 
     @FXML
     private void regresar(MouseEvent event) {

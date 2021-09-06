@@ -22,12 +22,12 @@ import java.util.List;
 public class Vehiculo implements Serializable{
     private int id;
     private String placa;       //validar que sea unica
-    private String marca;
+    private String marca;       
     private String modelo;
     private String tipo_motor;
     private int year;           //validar que sea positivo
     private double recorrido;   //validar que sea positivo
-    private String color;
+    private String color;       //solo letras
     private String tipo_combustible;
     private String vidrios;        //validar que sea positivo
     private String transmicion;
@@ -47,7 +47,10 @@ public class Vehiculo implements Serializable{
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.color = color;
+        if(color.matches("[a-zA-Z]+"))
+            this.color = color;
+        else
+            throw new ValueTypeException("Error el color ingresado no es válido");
         this.tipo_combustible = tipo_combustible;
         this.transmicion = transmicion;
         this.vidrios = vidrios;
@@ -77,7 +80,10 @@ public class Vehiculo implements Serializable{
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.color = color;
+        if(color.matches("[a-zA-Z]+"))
+            this.color = color;
+        else
+            throw new ValueTypeException("Error el color ingresado no es válido");
         this.tipo_combustible = tipo_combustible;
         this.ofertas = new ArrayList<>();
         this.vendedor = vendedor;
@@ -106,7 +112,10 @@ public class Vehiculo implements Serializable{
         this.marca = marca;
         this.modelo = modelo;
         this.tipo_motor = tipo_motor;
-        this.color = color;
+        if(color.matches("[a-zA-Z]+"))
+            this.color = color;
+        else
+            throw new ValueTypeException("Error el color ingresado no es válido");
         this.tipo_combustible = tipo_combustible;
         this.transmicion = transmicion;
         this.traccion = traccion;
@@ -200,8 +209,11 @@ public class Vehiculo implements Serializable{
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public void setColor(String color) throws ValueTypeException {
+        if(color.matches("[a-zA-Z]+"))
+            this.color = color;
+        else
+            throw new ValueTypeException("Error el color ingresado no es válido");
     }
 
     public String getTipo_combustible() {
