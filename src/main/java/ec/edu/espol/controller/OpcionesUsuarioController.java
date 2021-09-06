@@ -351,6 +351,7 @@ public class OpcionesUsuarioController implements Initializable {
             row.setOnMouseClicked(at->{
                 if(!row.isEmpty() && at.getButton() == MouseButton.PRIMARY && at.getClickCount() == 2){
                     Oferta v = row.getItem();
+                    vender(v);                    
                 }
             });
             return row;
@@ -366,6 +367,22 @@ public class OpcionesUsuarioController implements Initializable {
 
     @FXML
     private void buscarOfertas(ActionEvent event) {
+    }
+
+    private void vender(Oferta v) {        
+        try{
+            FXMLLoader fxmlloader = App.loadFXMLLoader("detalleOferta");
+            Parent root = fxmlloader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            DetalleOfertaController ouc = fxmlloader.getController();
+            ouc.recibirParametros(v);
+            stage.setResizable(false);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            alertaError("Error inesperado",ex.getMessage());
+        }
     }
     
 }
