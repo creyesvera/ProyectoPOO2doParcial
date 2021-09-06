@@ -223,26 +223,31 @@ public class Usuario implements Serializable {
         Usuario.saveFile("usuarios.ser", usuarios);
     }
     
-    public static void vender(Oferta o,String nomfile_vehiculos, String nomfile_ofertas, ArrayList<Usuario> usuarios){       //lista de vehiculos del vendedor
-        ArrayList<Vehiculo> vehiculos = Vehiculo.readFile(nomfile_vehiculos);
-        ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
+    public void vender(Oferta o,String nomfile_vehiculos, String nomfile_ofertas, String nomUsuarios){       //lista de vehiculos_ del vendedor
+        ArrayList<Vehiculo> vehiculos_ = Vehiculo.readFile(nomfile_vehiculos);
+        ArrayList<Oferta> ofertas_ = Oferta.readFile(nomfile_ofertas);
+        ArrayList<Usuario> usuarios = Usuario.readFile(nomUsuarios);
         
-        int iV = vehiculos.indexOf(o.getVehiculo());
-        int iO = ofertas.indexOf(o);
+        //int iV = vehiculos_.indexOf(o.getVehiculo());
+        //int iO = ofertas_.indexOf(o);
         int iU = usuarios.indexOf(o.getComprador());
         
-        vehiculos.get(iV).getOfertas().remove(o);        
-        usuarios.get(iU).getOfertas().remove(o);
+        vehiculos_.remove(o.getVehiculo());        
+        usuarios.get(iU).getVehiculos().remove(o.getVehiculo());
         
-        ArrayList<Integer> indicesBorrar = new ArrayList<>();
-        while(ind<ofertas.size()){
-            
-        }
+        ArrayList<Oferta> indicesBorrar = new ArrayList<>();
+        ofertas_.forEach(e->{
+            if(e.getVehiculo().equals(o.getVehiculo()))
+                indicesBorrar.add(e);
+        });
+        indicesBorrar.forEach(e->{
+            ofertas_.remove(e);
+        });
         
-        Vehiculo.saveFile("vehiculos.ser", vehiculos);                
+        Vehiculo.saveFile("vehiculos.ser", vehiculos_);                
         Usuario.saveFile("usuarios.ser", usuarios);
-        Oferta.saveFile("ofertas.ser", ofertas);
-        }
+        Oferta.saveFile("ofertas.ser", ofertas_);
+    }
     
     public static int nextID(String nomfile){
         int id = 0;
