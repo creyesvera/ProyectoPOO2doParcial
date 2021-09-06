@@ -52,7 +52,7 @@ public class Util {
         Properties props = System.getProperties();
         System.out.println("Enviando correo...");
    
-        props.put("mail.smtp.host", "smtp.office365.com");  //El servidor SMTP de Google
+        props.put("mail.smtp.host", "smtp.live.com");  //El servidor SMTP de Google
         props.put("mail.smtp.user", remitente);
         props.put("mail.smtp.clave", clave);    //La clave de la cuenta
         props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
@@ -73,13 +73,13 @@ public class Util {
             return false;
         }       
         try {
-            session.getProperties().put("mail.smtp.ssl.trust", "smtp.office365.com");
+            session.getProperties().put("mail.smtp.ssl.trust", "smtp.live.com");
             message.setFrom(new InternetAddress(remitente));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));   
             message.setSubject(asunto);
             message.setText(cuerpo);
             try (Transport transport = session.getTransport("smtp")) {
-                transport.connect("smtp.office365.com", remitente, clave);
+                transport.connect("smtp.live.com", remitente, clave);
                 
                 transport.sendMessage(message, message.getAllRecipients());
             }
