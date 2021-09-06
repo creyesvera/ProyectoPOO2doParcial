@@ -218,21 +218,30 @@ public class Usuario implements Serializable {
         o.getVehiculo().getOfertas().add(o);
         int iV = vehiculos.indexOf(o.getVehiculo());
         vehiculos.set(iV,o.getVehiculo());
-        System.out.println("NO SIRVE ESTA COCHINADAAAAAAA" + arr_ofertas);
         Oferta.saveFile(nomfile_ofertas, arr_ofertas);
         Vehiculo.saveFile("vehiculos.ser", vehiculos);                
         Usuario.saveFile("usuarios.ser", usuarios);
     }
     
-    public static void vender(Vehiculo v,String nomfile_vehiculos, String nomfile_ofertas){       //lista de vehiculos del vendedor
+    public static void vender(Oferta o,String nomfile_vehiculos, String nomfile_ofertas, ArrayList<Usuario> usuarios){       //lista de vehiculos del vendedor
         ArrayList<Vehiculo> vehiculos = Vehiculo.readFile(nomfile_vehiculos);
-        vehiculos.remove(v);
-        Vehiculo.saveFile(nomfile_vehiculos,vehiculos);
-        ArrayList<Oferta> ofertas_v = v.getOfertas();
         ArrayList<Oferta> ofertas = Oferta.readFile(nomfile_ofertas);
-        for(Oferta o : ofertas_v)
-            ofertas.remove(o);
-        Oferta.saveFile(nomfile_ofertas,ofertas);       
+        
+        int iV = vehiculos.indexOf(o.getVehiculo());
+        int iO = ofertas.indexOf(o);
+        int iU = usuarios.indexOf(o.getComprador());
+        
+        vehiculos.get(iV).getOfertas().remove(o);        
+        usuarios.get(iU).getOfertas().remove(o);
+        
+        ArrayList<Integer> indicesBorrar = new ArrayList<>();
+        while(ind<ofertas.size()){
+            
+        }
+        
+        Vehiculo.saveFile("vehiculos.ser", vehiculos);                
+        Usuario.saveFile("usuarios.ser", usuarios);
+        Oferta.saveFile("ofertas.ser", ofertas);
         }
     
     public static int nextID(String nomfile){
