@@ -116,9 +116,8 @@ public class OpcionesUsuarioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         opC = this;                       
-        vehiculos = Vehiculo.readFile("vehiculos.ser");        
-        ofertas = Oferta.readFile("ofertas.ser");
-        System.out.println("ESTA VAINA "+ofertas);
+        vehiculos = Vehiculo.readFile("vehiculos.ser");         
+        ofertas = Oferta.readFile("ofertas.ser");       
         this.rootAceptarOferta.setVisible(false);
         this.rootMostarOfertados.setVisible(false);
         this.rootOfertar.setVisible(false);             
@@ -141,13 +140,11 @@ public class OpcionesUsuarioController implements Initializable {
         
     public void recibirParametros(Usuario u){
         user = u;
-        misNoVehiculos = separarVehiculosDeUsuario(user,vehiculos);
-        System.out.println(vehiculos +"P!!!!!!");
-        System.out.println("INTENO N"+misNoVehiculos);
-        System.out.println("PRUEBAAAAAA");
+        misNoVehiculos = separarVehiculosDeUsuario(user,vehiculos);    
+        System.out.println("jjjjjjjj"+ofertas);
         ofertasParaMisVehiculos = Oferta.separaOFertasUsuario(ofertas, user);
-        //System.out.println("AAAA" +u.getVehiculos());
-    //misVehiculos = u.getVehiculos();
+        System.out.println("HMM"+ofertasParaMisVehiculos);
+        misVehiculos = u.getVehiculos();
         mostrarMenu();        
     }
     
