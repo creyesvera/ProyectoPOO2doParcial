@@ -243,11 +243,13 @@ public class Usuario implements Serializable {
         indicesBorrar.forEach(e->{
             ofertas_.remove(e);
         });
-        
+        //Util.enviarCorreo("", clave)
         Vehiculo.saveFile("vehiculos.ser", vehiculos_);                
         Usuario.saveFile("usuarios.ser", usuarios);
         Oferta.saveFile("ofertas.ser", ofertas_);
     }
+    
+    
     
     public static int nextID(String nomfile){
         int id = 0;

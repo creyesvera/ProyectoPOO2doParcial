@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 public class Util {
    private Util(){}
    
-   public boolean enviarCorreo(String cuerpo, String email) {
+   public static boolean enviarCorreo(String cuerpo, String email) {
         String remitente = "";
         String clave = "";
         String asunto = "";
@@ -52,12 +52,12 @@ public class Util {
         Properties props = System.getProperties();
         System.out.println("Enviando correo...");
    
-        props.put("mail.smtp.host", "smtp.gmail.com");  //El servidor SMTP de Google
+        props.put("mail.smtp.host", "smtp.office365.com");  //El servidor SMTP de Google
         props.put("mail.smtp.user", remitente);
         props.put("mail.smtp.clave", clave);    //La clave de la cuenta
         props.put("mail.smtp.auth", "true");    //Usar autenticación mediante usuario y clave
         props.put("mail.smtp.starttls.enable", "true"); //Para conectar de manera segura al servidor SMTP
-        props.put("mail.smtp.port", "587"); //El puerto SMTP seguro de Google
+        props.put("mail.smtp.port", "25"); //El puerto SMTP seguro de Google
 
         Session session = Session.getDefaultInstance(props);    
         MimeMessage message = new MimeMessage(session);  
@@ -73,7 +73,7 @@ public class Util {
             return false;
         }       
         try {
-
+            session.getProperties().put("mail.smtp.ssl.trust", "smtp.office365.com");
             message.setFrom(new InternetAddress(remitente));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));   
             message.setSubject(asunto);
