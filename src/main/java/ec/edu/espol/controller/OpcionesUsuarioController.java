@@ -141,9 +141,7 @@ public class OpcionesUsuarioController implements Initializable {
     public void recibirParametros(Usuario u){
         user = u;
         misNoVehiculos = separarVehiculosDeUsuario(user,vehiculos);    
-        System.out.println("jjjjjjjj"+ofertas);
         ofertasParaMisVehiculos = Oferta.separaOFertasUsuario(ofertas, user);
-        System.out.println("HMM"+ofertasParaMisVehiculos);
         misVehiculos = u.getVehiculos();
         mostrarMenu();        
     }
@@ -171,7 +169,7 @@ public class OpcionesUsuarioController implements Initializable {
         } catch (IOException ex) {
             alertaError("Ha ocurrido un error",ex.getMessage());
         }
-          }                    
+    }                    
              
     
     //COMPRADOR
@@ -347,7 +345,19 @@ public class OpcionesUsuarioController implements Initializable {
         
         tableViewOfertas.getItems().clear();
         tableViewOfertas.getItems().addAll(ofertas);
+        
+        tableViewOfertas.setRowFactory(e->{
+            TableRow<Oferta> row = new TableRow<>();
+            row.setOnMouseClicked(at->{
+                if(!row.isEmpty() && at.getButton() == MouseButton.PRIMARY && at.getClickCount() == 2){
+                    Oferta v = row.getItem();
+                }
+            });
+            return row;
+        });
     }
+    
+    
     
     private void cerrarVentana(){
         Stage myStage = (Stage) this.btnBuscar.getScene().getWindow();
