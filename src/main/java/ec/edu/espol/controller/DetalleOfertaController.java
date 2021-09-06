@@ -5,9 +5,13 @@
  */
 package ec.edu.espol.controller;
 
+import ec.edu.espol.model.Oferta;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 
 /**
  * FXML Controller class
@@ -16,12 +20,34 @@ import javafx.fxml.Initializable;
  */
 public class DetalleOfertaController implements Initializable {
 
+    @FXML
+    private Label lblnombre;
+    @FXML
+    private Label lblApellido;
+    @FXML
+    private Label lblCorreo;
+    @FXML
+    private Label lblPofertado;
+    @FXML
+    private Label lblPecioPedido;
+    
+    private Oferta oferta;
+    private DetalleOfertaController doC;
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        doC = this;
     }    
+
+    public void recibirParametros(Oferta oferta){
+        this.oferta = oferta;
+    }
+    
+    @FXML
+    private void vender(ActionEvent event) {
+    }
     
 }
