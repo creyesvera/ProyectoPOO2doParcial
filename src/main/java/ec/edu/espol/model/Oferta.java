@@ -23,9 +23,7 @@ import java.util.Objects;
 public class Oferta implements Serializable{
     private int id;
     private Usuario comprador;
-    private int id_comprador;
     private Vehiculo vehiculo;
-    private int id_vehiculo;
     private double precio;
         
     public Oferta(int id, Usuario comprador, Vehiculo vehiculo, double precio) {
@@ -51,28 +49,12 @@ public class Oferta implements Serializable{
         this.comprador = comprador;
     }
 
-    public int getId_comprador() {
-        return id_comprador;
-    }
-
-    public void setId_comprador(int id_comprador) {
-        this.id_comprador = id_comprador;
-    }
-
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
 
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
-    }
-
-    public int getId_vehiculo() {
-        return id_vehiculo;
-    }
-
-    public void setId_vehiculo(int id_vehiculo) {
-        this.id_vehiculo = id_vehiculo;
     }
 
     public double getPrecio() {
@@ -85,7 +67,7 @@ public class Oferta implements Serializable{
 
     @Override
     public String toString() {
-        return "Oferta{" + "id=" + id + ", comprador=" + comprador + ", id_comprador=" + id_comprador + ", vehiculo=" + vehiculo + ", id_vehiculo=" + id_vehiculo + ", precio=" + precio + '}';
+        return "Oferta{" + "id=" + id + ", comprador=" + comprador + ", vehiculo=" + vehiculo + ", precio=" + precio + '}';
     }
 
     
@@ -143,8 +125,8 @@ public class Oferta implements Serializable{
     vehículo correspondiente, se asigna los objetos comprador y vendedor al objeto oferta*/
     public static void link(ArrayList<Usuario> compradores, ArrayList<Vehiculo> vehiculos, ArrayList<Oferta> ofertas){
         for(Oferta o: ofertas){
-            Usuario comp = Usuario.searchByID(compradores, o.getId_comprador());
-            Vehiculo veh = Vehiculo.searchByID(vehiculos, o.getId_vehiculo());
+            Usuario comp = Usuario.searchByID(compradores, o.comprador.getId());
+            Vehiculo veh = Vehiculo.searchByID(vehiculos, o.getVehiculo().getId());
             comp.getOfertas().add(o);
             veh.getOfertas().add(o);
             o.setComprador(comp);
@@ -186,7 +168,8 @@ public class Oferta implements Serializable{
     public static ArrayList<Oferta> separaOFertasUsuario(List<Oferta> of, Usuario u){
         ArrayList<Oferta> ofertas = new ArrayList<>();
         of.forEach(e->{
-            if(e.getComprador().equals(u))
+            
+            if(e.getVehiculo().getVendedor().equals(u))
                 ofertas.add(e);
         });
         return ofertas;
